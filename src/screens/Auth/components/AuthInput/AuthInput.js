@@ -22,20 +22,18 @@ const AuthInput = ({ label, secured, error, isLogin, ...props }) => {
           <MaterialIcons name="error" color={colors.red} size={16} />
         </Text>
       )}
-
-      <Text style={[s.label, error && isTouched && s.labelError]}>
-        {label}
-      </Text>
-      <Text
-        style={[
-          s.labelBackgroundLine,
-          isTouched && s.labelBackgroundLineTouched,
-          isFocused && s.labelBackgroundLineFocused,
-          label === 'Email' && s.labelWidthEmail,
-          label === 'Password' && s.labelWidthPassword,
-          label === 'Repeat Password' && s.labelWidthRepeatPassword,
-        ]}
-      />
+      <View style={[s.labelContainer]}>
+        <Text style={[s.label, error && isTouched && s.labelError]}>
+          {label}
+        </Text>
+        <Text
+          style={[
+            s.labelBackgroundLine,
+            isTouched && s.labelBackgroundLineTouched,
+            isFocused && s.labelBackgroundLineFocused,
+          ]}
+        />
+      </View>
       {error && isTouched && (
         <Text
           style={[

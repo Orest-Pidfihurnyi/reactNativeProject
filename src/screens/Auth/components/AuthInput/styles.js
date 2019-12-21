@@ -39,11 +39,13 @@ const s = StyleSheet.create({
     color: colors.red,
     fontSize: 12,
   },
-  label: {
+  labelContainer: {
     position: 'absolute',
-    zIndex: 3,
     left: 16,
     top: -11,
+  },
+  label: {
+    zIndex: 3,
     paddingHorizontal: 8,
     color: colors.primary,
     fontWeight: '500',
@@ -52,30 +54,19 @@ const s = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     height: 3,
-    top: -1,
-    left: 16,
+    top: 8,
+    width: '100%',
     backgroundColor: colors.white,
   },
   labelBackgroundLineTouched: {
-    top: -2,
+    top: 8,
   },
   labelBackgroundLineFocused: {
     position: 'absolute',
-    zIndex: 2,
     height: 3,
-    width: 50,
-    top: -2,
-    left: 16,
+    width: '100%',
+    top: 8,
     backgroundColor: colors.white,
-  },
-  labelWidthEmail: {
-    width: 51,
-  },
-  labelWidthPassword: {
-    width: 81,
-  },
-  labelWidthRepeatPassword: {
-    width: 131,
   },
   labelError: {
     color: colors.red,

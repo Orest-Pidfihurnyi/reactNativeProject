@@ -1,9 +1,22 @@
-import React from 'react';
-// import { SplashScreen } from 'expo';
+import makeInspectable from 'mobx-devtools-mst';
+import React, { useEffect } from 'react';
+import { SplashScreen } from 'expo';
 import Navigator from './src/navigation/';
+import { createStore, Provider } from './src/stores/createStore';
 
-// SplashScreen.preventAutoHide();
+const store = createStore();
+makeInspectable(store);
+
+SplashScreen.preventAutoHide();
 
 export default function App() {
-  return <Navigator />;
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
+  return (
+    <Provider value={store}>
+      <Navigator />
+    </Provider>
+  );
 }

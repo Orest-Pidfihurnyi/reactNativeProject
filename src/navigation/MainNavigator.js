@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import { createSwitchNavigator } from 'react-navigation';
 import AuthNavigator from './AuthNavigator';
 import screens from './screens';
 import AppTabNavigation from './AppTabNavigation';
@@ -8,8 +8,7 @@ const routes = {
   [screens.MainApp]: AppTabNavigation,
 };
 
-export default createStackNavigator(routes, {
+export default createSwitchNavigator(routes, {
   initialRouteName: screens.Auth,
   headerMode: 'none',
-  mode: 'modal',
 });

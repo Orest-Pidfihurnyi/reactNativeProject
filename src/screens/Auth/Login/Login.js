@@ -6,13 +6,22 @@ import AuthInput from '../components/AuthInput/AuthInput';
 import styles from '../../../styles/styles';
 import { isAndroid } from '../../../utils';
 import AuthBottom from '../components/AuthBottom/AuthBottom';
+import { useStore } from '../../../stores/createStore';
+import NavigationService from '../../../services/NavigationService';
 import useValidationSchema from '../../../hooks/useValidationSchema';
+import HeaderBackIcon from '../../../components/headerBackIcon/HeaderBackIcon';
 
 function LoginScreen() {
   const { validationSchemaForLogin } = useValidationSchema();
+  const store = useStore();
 
-  function onSubmit(val) {
-    console.log(val);
+  async function onSubmit({ email, password }) {
+    await store.auth.login.run({
+      email,
+      password,
+    });
+
+    NavigationService.navigateToApp();
   }
 
   return (
@@ -46,6 +55,7 @@ function LoginScreen() {
               keyboardType="email-address"
               error={errors.email}
               value={values.email}
+              autoCapitalize="sentences"
             />
             <AuthInput
               label="Password"
@@ -57,9 +67,7 @@ function LoginScreen() {
               isLogin
             />
           </View>
-          <View>
-            <AuthBottom onSubmit={handleSubmit} />
-          </View>
+          <AuthBottom onSubmit={handleSubmit} />
         </KeyboardAvoidingView>
       )}
     </Formik>
@@ -69,6 +77,7 @@ function LoginScreen() {
 LoginScreen.navigationOptions = () => ({
   title: 'Login',
   headerStyle: styles.header,
+  headerLeft: (props) => <HeaderBackIcon {...props} />,
 });
 
 LoginScreen.propTypes = {};

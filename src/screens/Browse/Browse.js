@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { View, Text, Button } from 'react-native';
 import s from './styles';
 import styles from '../../styles/styles';
@@ -23,4 +24,4 @@ BrowseScreen.navigationOptions = () => ({
 
 BrowseScreen.propTypes = {};
 
-export default BrowseScreen;
+export default observer(BrowseScreen);
