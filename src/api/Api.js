@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 
+const BASE_URL = 'https://apiko-intensive-backend.herokuapp.com/';
+
 export const Auth = {
   _token: null,
 
@@ -31,14 +33,14 @@ export const Auth = {
   },
 
   login({ email, password }) {
-    return axios.post('/auth/login', {
+    return axios.post(`${BASE_URL}auth/login`, {
       email,
       password,
     });
   },
 
   register({ email, password, fullName }) {
-    return axios.post('/auth/register', {
+    return axios.post(`${BASE_URL}auth/register`, {
       email,
       password,
       fullName,
@@ -48,19 +50,19 @@ export const Auth = {
 
 export const Account = {
   getUser() {
-    return axios.get(`/account`);
+    return axios.get(`${BASE_URL}account`);
   },
 
   getUserById(userId) {
-    return axios.get(`/users/${userId}`);
+    return axios.get(`${BASE_URL}users/${userId}`);
   },
 };
 
 export const Products = {
   fetchLatest() {
-    return axios('/products/latest');
+    return axios(`${BASE_URL}products/latest`);
   },
   getById(id) {
-    return axios(`/products/${id}`);
+    return axios(`${BASE_URL}products/${id}`);
   },
 };

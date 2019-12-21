@@ -11,28 +11,21 @@ import colors from '../../styles/colors';
 import { isAndroid } from '../../utils';
 
 function HeaderBackIcon({ onPress }) {
-  const Touchable = () =>
-    isAndroid ? (
-      <View style={s.containerAndroid}>
-        <TouchableNativeFeedback onPress={onPress}>
-          <Ionicons
-            name="ios-arrow-back"
-            size={32}
-            color={colors.gray}
-          />
-        </TouchableNativeFeedback>
-      </View>
-    ) : (
-      <TouchableOpacity style={s.containerIos} onPress={onPress}>
+  return isAndroid ? (
+    <View style={s.containerAndroid}>
+      <TouchableNativeFeedback onPress={onPress}>
         <Ionicons
           name="ios-arrow-back"
           size={32}
           color={colors.gray}
         />
-      </TouchableOpacity>
-    );
-
-  return <Touchable />;
+      </TouchableNativeFeedback>
+    </View>
+  ) : (
+    <TouchableOpacity style={s.containerIos} onPress={onPress}>
+      <Ionicons name="ios-arrow-back" size={32} color={colors.gray} />
+    </TouchableOpacity>
+  );
 }
 
 HeaderBackIcon.propTypes = {

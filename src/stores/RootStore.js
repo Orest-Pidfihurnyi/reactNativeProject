@@ -3,6 +3,7 @@ import Api from 'src/api';
 import { AsyncStorage } from 'react-native';
 import { AuthStore } from './Auth/AuthStore';
 import { ViewerStore } from './ViewerStore';
+import NavigationService from '../services/NavigationService';
 import { LatestProductsStore } from './Products/LatestProductsStore';
 import { EntitiesStore } from './EntitiesStore';
 
@@ -23,12 +24,13 @@ export const RootStore = types
           return;
         }
 
-        Api.Auth.setToken(token);
+        await Api.Auth.setToken(token);
 
         const res = await Api.Account.getUser();
 
         store.viewer.setViewer(res.data);
         store.auth.setIsLoggedIn(true);
+        NavigationService.navigateToApp();
       } catch (err) {
         console.log('from RootStore.js ', err);
       }
