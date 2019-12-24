@@ -4,7 +4,7 @@ import { createContext, useContext } from 'react';
 import { RootStore } from './RootStore';
 import { createPersist } from './utils';
 
-connectToDevTools({ host: 'localhost', port: '8098' });
+connectToDevTools({ host: '192.168.0.104', port: '8098' });
 
 export function createStore() {
   const root = RootStore.create();

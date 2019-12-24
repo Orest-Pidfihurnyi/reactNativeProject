@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { YellowBox } from 'react-native';
 import { SplashScreen } from 'expo';
 import Navigator from './src/navigation/';
 import { createStore, Provider } from './src/stores/createStore';
@@ -9,9 +10,13 @@ SplashScreen.preventAutoHide();
 
 export default function App() {
   useEffect(() => {
-    store.bootstrap();
+    async function bootstrap() {
+      await store.bootstrap();
 
-    SplashScreen.hide();
+      YellowBox.ignoreWarnings(['Require cycle:']);
+      SplashScreen.hide();
+    }
+    bootstrap();
   }, []);
 
   return (

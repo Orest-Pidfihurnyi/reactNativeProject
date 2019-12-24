@@ -8,7 +8,7 @@ import T from 'prop-types';
 import s from './styles';
 import { isAndroid } from '../../utils';
 
-function HeaderBackIcon({ onPress, children }) {
+function HeaderRightComponent({ onPress, children }) {
   return isAndroid ? (
     <View style={s.containerAndroid}>
       <TouchableNativeFeedback onPress={onPress}>
@@ -22,9 +22,9 @@ function HeaderBackIcon({ onPress, children }) {
   );
 }
 
-HeaderBackIcon.propTypes = {
+HeaderRightComponent.propTypes = {
   onPress: T.func,
   children: T.node,
 };
 
-export default HeaderBackIcon;
+export default HeaderRightComponent;

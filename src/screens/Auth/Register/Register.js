@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Formik } from 'formik';
+import { Ionicons } from '@expo/vector-icons';
 import s from './styles';
 import { useStore } from '../../../stores/createStore';
 import AuthInput from '../components/AuthInput/AuthInput';
@@ -9,6 +10,7 @@ import { isAndroid } from '../../../utils';
 import NavigationService from '../../../services/NavigationService';
 import AuthBottom from '../components/AuthBottom/AuthBottom';
 import useValidationSchema from '../../../hooks/useValidationSchema';
+import colors from '../../../styles/colors';
 import HeaderBackIcon from '../../../components/headerBackIcon/HeaderBackIcon';
 
 function RegisterScreen() {
@@ -98,7 +100,14 @@ function RegisterScreen() {
 RegisterScreen.navigationOptions = () => ({
   title: 'Register',
   headerStyle: styles.header,
-  headerLeft: (props) => <HeaderBackIcon {...props} />,
+  headerLeft: (props) => (
+    <HeaderBackIcon
+      {...props}
+      onPress={() => NavigationService.onGoBack()}
+    >
+      <Ionicons name="ios-arrow-back" size={32} color={colors.gray} />
+    </HeaderBackIcon>
+  ),
 });
 
 RegisterScreen.propTypes = {};

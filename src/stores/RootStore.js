@@ -21,6 +21,7 @@ export const RootStore = types
         const token = await AsyncStorage.getItem('___token');
 
         if (!token) {
+          NavigationService.navigatToAuth();
           return;
         }
 
@@ -32,6 +33,7 @@ export const RootStore = types
         store.auth.setIsLoggedIn(true);
         NavigationService.navigateToApp();
       } catch (err) {
+        NavigationService.navigateToAuth();
         console.log('from RootStore.js ', err);
       }
     },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, KeyboardAvoidingView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import s from './styles';
 import AuthInput from '../components/AuthInput/AuthInput';
@@ -10,6 +11,7 @@ import { useStore } from '../../../stores/createStore';
 import NavigationService from '../../../services/NavigationService';
 import useValidationSchema from '../../../hooks/useValidationSchema';
 import HeaderBackIcon from '../../../components/headerBackIcon/HeaderBackIcon';
+import colors from '../../../styles/colors';
 
 function LoginScreen() {
   const { validationSchemaForLogin } = useValidationSchema();
@@ -77,7 +79,14 @@ function LoginScreen() {
 LoginScreen.navigationOptions = () => ({
   title: 'Login',
   headerStyle: styles.header,
-  headerLeft: (props) => <HeaderBackIcon {...props} />,
+  headerLeft: (props) => (
+    <HeaderBackIcon
+      {...props}
+      onPress={() => NavigationService.onGoBack()}
+    >
+      <Ionicons name="ios-arrow-back" size={32} color={colors.gray} />
+    </HeaderBackIcon>
+  ),
 });
 
 LoginScreen.propTypes = {};

@@ -10,7 +10,7 @@ import s from './styles';
 
 const Touchable = ({ onSubmit, ...props }) =>
   isAndroid ? (
-    <TouchableNativeFeedback onPress={onSubmit}>
+    <TouchableNativeFeedback {...props} onPress={onSubmit}>
       <Text {...props}>{props.children}</Text>
     </TouchableNativeFeedback>
   ) : (

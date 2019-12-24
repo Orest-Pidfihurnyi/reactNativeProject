@@ -41,6 +41,14 @@ class NavigationService {
   navigateToApp() {
     this.navigate(screens.MainApp);
   }
+
+  navigateToAuth() {
+    this.navigate(screens.Auth);
+  }
+
+  onGoBack() {
+    this.navigation.dispatch(NavigationActions.back());
+  }
 }
 
 export default new NavigationService();

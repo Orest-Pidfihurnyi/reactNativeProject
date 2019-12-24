@@ -14,9 +14,9 @@ export const AuthStore = types
       store.isLoggedIn = bool;
     },
 
-    logout() {
+    async logout() {
       store.isLoggedIn = false;
-      Api.Auth.logout();
+      await Api.Auth.logout();
     },
   }));
 

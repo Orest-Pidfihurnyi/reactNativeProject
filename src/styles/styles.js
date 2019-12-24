@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  headerLeftCloseIcon: {
+    marginLeft: 16,
+  },
+  headerRightCreatePost: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: colors.primary,
+  },
 });
 
 export default styles;

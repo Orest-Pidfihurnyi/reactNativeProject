@@ -17,4 +17,6 @@ export default mirror([
   'ProfileTab',
   'BrowseTab',
   'Browse',
+  'CreatePost',
+  'Settings',
 ]);

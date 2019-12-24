@@ -6,4 +6,6 @@ export default {
   black: '#333333',
   grayForBackground: '#E5E5E5',
   red: '#FF4060',
+  noColor: 'transparent',
+  addPhotosBtnBgc: '#F8F9FB',
 };

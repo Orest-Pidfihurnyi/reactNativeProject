@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+import { NavigationService } from '../services';
 
 const BASE_URL = 'https://apiko-intensive-backend.herokuapp.com/';
 
@@ -26,6 +27,7 @@ export const Auth = {
     }
 
     axios.defaults.headers.common.Authorization = undefined;
+    NavigationService.navigateToLogin();
   },
 
   isLoggedIn() {
