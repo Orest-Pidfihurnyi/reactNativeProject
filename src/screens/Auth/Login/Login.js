@@ -55,7 +55,7 @@ function LoginScreen() {
               keyboardType="email-address"
               error={errors.email}
               value={values.email}
-              autoCapitalize="sentences"
+              autoCapitalize="none"
             />
             <AuthInput
               label="Password"
@@ -65,6 +65,7 @@ function LoginScreen() {
               value={values.password}
               secured
               isLogin
+              autoCapitalize="none"
             />
           </View>
           <AuthBottom onSubmit={handleSubmit} />

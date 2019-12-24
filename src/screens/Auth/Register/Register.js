@@ -53,7 +53,7 @@ function RegisterScreen() {
           <ScrollView>
             <View style={s.textContainer}>
               <AuthInput
-                autoCapitalize="words"
+                autoCapitalize="none"
                 label="Full Name"
                 onChangeText={handleChange('fullName')}
                 onBlur={handleBlur('fullName')}
@@ -67,7 +67,7 @@ function RegisterScreen() {
                 onBlur={handleBlur('email')}
                 error={errors.email}
                 value={values.email}
-                autoCapitalize="sentences"
+                autoCapitalize="none"
               />
               <AuthInput
                 label="Password"
@@ -76,6 +76,7 @@ function RegisterScreen() {
                 error={errors.password}
                 value={values.password}
                 secured
+                autoCapitalize="none"
               />
               <AuthInput
                 label="Repeat Password"
@@ -84,6 +85,7 @@ function RegisterScreen() {
                 error={errors.passwordRepeat}
                 value={values.passwordRepeat}
                 secured
+                autoCapitalize="none"
               />
             </View>
           </ScrollView>
