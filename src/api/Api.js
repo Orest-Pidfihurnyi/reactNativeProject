@@ -67,4 +67,7 @@ export const Products = {
   getById(id) {
     return axios(`${BASE_URL}products/${id}`);
   },
+  fetchOwnProducts(id) {
+    return axios(`${BASE_URL}users/${id}/products`);
+  },
 };

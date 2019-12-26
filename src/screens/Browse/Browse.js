@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { View, Text, Button } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
+import ProductItem from '../../components/ProductItem/ProductItem';
 import s from './styles';
 import styles from '../../styles/styles';
-import NavigationService from '../../services/NavigationService';
 import { useStore } from '../../stores/createStore';
+import colors from '../../styles/colors';
 
 function BrowseScreen() {
   const store = useStore();
+  console.log(store.latestProducts);
+
+  useEffect(() => {
+    store.latestProducts.fetchLatest.run();
+  }, []);
 
   return (
     <View style={s.container}>
-      <Text>
-        {store.auth.isLoggedIn
-          ? `Авторизированно, user name: ${store.viewer.user.fullName}`
-          : 'Не авторизировано'}
-      </Text>
-      <Button
-        title="Go to registration"
-        onPress={() => NavigationService.navigateToRegistration()}
-      />
+      {store.latestProducts.fetchLatest.isLoading ? (
+        <ActivityIndicator size="large" color={colors.primary} />
+      ) : (
+        <FlatList
+          data={store.latestProducts.items}
+          renderItem={({ item }) => <ProductItem item={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          contentContainerStyle={s.flatList}
+        />
+      )}
     </View>
   );
 }

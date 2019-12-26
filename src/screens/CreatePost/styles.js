@@ -22,6 +22,7 @@ const s = StyleSheet.create({
     borderColor: colors.grayBorder,
   },
   container: {
+    flex: 1,
     backgroundColor: colors.grayForBackground,
   },
   photosContainer: {
@@ -49,6 +50,9 @@ const s = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     height: 140,
+  },
+  priceViewFree: {
+    height: 67,
   },
   changeCurrency: {
     width: '100%',
@@ -94,7 +98,8 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     backgroundColor: colors.white,
-    marginVertical: 8,
+    marginTop: 8,
+    marginBottom: 16,
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 64,
