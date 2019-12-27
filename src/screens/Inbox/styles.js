@@ -5,6 +5,20 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.grayForBackground,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noMessage: {
+    alignItems: 'center',
+  },
+  noMessageIcon: {
+    height: 128,
+    width: 128,
+  },
+  noMessageText: {
+    fontSize: 16,
+    color: colors.gray,
+    marginTop: 16,
   },
 });
 

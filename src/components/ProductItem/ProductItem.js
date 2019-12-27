@@ -37,7 +37,11 @@ function ProductItem({ item }) {
           <Text style={s.productTitle}>{item.title}</Text>
           <View style={s.productBottom}>
             <Text style={s.productPrice}>{`$${item.price}`}</Text>
-            <Feather name="bookmark" size={20} color={colors.gray} />
+            <Feather
+              name="bookmark"
+              size={20}
+              color={item.saved ? colors.primary : colors.gray}
+            />
           </View>
         </View>
       </View>

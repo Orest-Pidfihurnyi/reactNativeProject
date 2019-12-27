@@ -3,13 +3,13 @@ import { observer } from 'mobx-react';
 import { View, FlatList, ActivityIndicator } from 'react-native';
 import ProductItem from '../../components/ProductItem/ProductItem';
 import s from './styles';
-import styles from '../../styles/styles';
 import { useStore } from '../../stores/createStore';
 import colors from '../../styles/colors';
+import CustomHeader from '../../components/CustomHeader/CustomHeader';
+import HeaderSearchInput from '../../components/HeaderSearchInput/HeaderSearchInput';
 
 function BrowseScreen() {
   const store = useStore();
-  console.log(store.latestProducts);
 
   useEffect(() => {
     store.latestProducts.fetchLatest.run();
@@ -18,7 +18,9 @@ function BrowseScreen() {
   return (
     <View style={s.container}>
       {store.latestProducts.fetchLatest.isLoading ? (
-        <ActivityIndicator size="large" color={colors.primary} />
+        <View style={s.activityIndicator}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
       ) : (
         <FlatList
           data={store.latestProducts.items}
@@ -33,8 +35,12 @@ function BrowseScreen() {
 }
 
 BrowseScreen.navigationOptions = () => ({
-  title: 'Browse',
-  headerStyle: styles.header,
+  header: (
+    <CustomHeader>
+      <HeaderSearchInput />
+    </CustomHeader>
+  ),
+  headerStyle: { marginLeft: 0 },
 });
 
 BrowseScreen.propTypes = {};

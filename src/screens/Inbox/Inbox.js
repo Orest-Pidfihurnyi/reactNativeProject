@@ -1,17 +1,16 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Image, Text } from 'react-native';
+import noMessageIcon from '../../../assets/noMessage.png';
 import s from './styles';
 import styles from '../../styles/styles';
-import NavigationService from '../../services/NavigationService';
 
 function InboxScreen() {
   return (
     <View style={s.container}>
-      <Text>InboxScreen</Text>
-      <Button
-        title="Go to registration"
-        onPress={() => NavigationService.navigateToRegistration()}
-      />
+      <View style={s.noMessage}>
+        <Image source={noMessageIcon} style={s.noMessageIcon} />
+        <Text style={s.noMessageText}>No message yet</Text>
+      </View>
     </View>
   );
 }

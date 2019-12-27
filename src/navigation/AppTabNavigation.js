@@ -1,8 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import createPostNavigation from '../navigation/createPostNavigator';
 import BrowseNavigator from '../navigation/BrowseNavigator';
 import InboxNavigator from '../navigation/InboxNavigator';
 import CustomTabBarBottom from './components/CustomTabBar';

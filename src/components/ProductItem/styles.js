@@ -32,7 +32,9 @@ const s = StyleSheet.create({
   },
   productTitle: {
     fontSize: 14,
+    height: 21,
     color: colors.black,
+    flexWrap: 'nowrap',
     alignItems: 'center',
   },
   productBottom: {

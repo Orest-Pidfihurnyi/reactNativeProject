@@ -11,3 +11,5 @@ export const statusBarHeight = isAndroid
 export const appBarHeight = isAndroid ? 56 : 44;
 
 export const headerHeight = appBarHeight + statusBarHeight;
+
+export const profileHeaderHeight = statusBarHeight + 130;

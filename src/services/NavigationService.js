@@ -46,6 +46,10 @@ class NavigationService {
     this.navigate(screens.Auth);
   }
 
+  navigateToCreatePost() {
+    this.navigate(screens.CreatePost);
+  }
+
   onGoBack() {
     this.navigation.dispatch(NavigationActions.back());
   }

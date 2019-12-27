@@ -6,6 +6,11 @@ const s = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.grayForBackground,
   },
+  userAvatar: {
+    height: 72,
+    width: 72,
+    borderRadius: 50,
+  },
 });
 
 export default s;

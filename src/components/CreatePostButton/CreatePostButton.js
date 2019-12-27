@@ -9,7 +9,7 @@ function CreatePostButton() {
     <View style={s.cretePostButton}>
       <Ionicons
         name="md-add-circle"
-        size={56}
+        size={72}
         color={colors.primary}
       />
     </View>

@@ -5,8 +5,13 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingTop: 8,
     backgroundColor: colors.grayForBackground,
+  },
+  activityIndicator: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   flatList: {
     justifyContent: 'space-between',

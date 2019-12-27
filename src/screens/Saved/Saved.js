@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 import s from './styles';
-import styles from '../../styles/styles';
 import NavigationService from '../../services/NavigationService';
+import CustomHeader from '../../components/CustomHeader/CustomHeader';
+import SearchInput from '../../components/SearchInput/SearchInput';
 
 function SavedScreen() {
   return (
@@ -17,8 +18,11 @@ function SavedScreen() {
 }
 
 SavedScreen.navigationOptions = () => ({
-  title: 'Saved',
-  headerStyle: styles.header,
+  header: (
+    <CustomHeader>
+      <SearchInput />
+    </CustomHeader>
+  ),
 });
 
 SavedScreen.propTypes = {};

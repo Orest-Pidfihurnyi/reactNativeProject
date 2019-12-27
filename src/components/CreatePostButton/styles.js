@@ -6,9 +6,9 @@ const s = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: 'center',
     borderRadius: 50,
-    width: 56,
-    height: 56,
-    top: -28.5,
+    width: 72,
+    height: 72,
+    top: -25.5,
     justifyContent: 'center',
   },
 });
