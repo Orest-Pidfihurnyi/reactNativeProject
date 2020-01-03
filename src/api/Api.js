@@ -14,7 +14,6 @@ export const Auth = {
     } catch (err) {
       console.log(err);
     }
-
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
 
@@ -64,10 +63,34 @@ export const Products = {
   fetchLatest() {
     return axios(`${BASE_URL}products/latest`);
   },
+
+  addProductToSaved(productId) {
+    return axios.post(`${BASE_URL}products/${productId}/saved`);
+  },
+
+  uploadPhoto(data) {
+    return axios.post(`${BASE_URL}upload/images`, data);
+  },
+
+  deleteProductFromSaved(productId) {
+    return axios.delete(`${BASE_URL}products/${productId}/saved`);
+  },
+
+  fetchSaved() {
+    return axios(`${BASE_URL}products/saved`);
+  },
+
   getById(id) {
     return axios(`${BASE_URL}products/${id}`);
   },
+
   fetchOwnProducts(id) {
     return axios(`${BASE_URL}users/${id}/products`);
+  },
+
+  fetchMore({ from, limit }) {
+    return axios(
+      `${BASE_URL}products/latest?from=${from}&limit=${limit}`,
+    );
   },
 };

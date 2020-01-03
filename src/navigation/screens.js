@@ -6,6 +6,7 @@ export default mirror([
   'Empty',
   'Auth',
   'MainApp',
+  'Filters',
   'Home',
   'SavedTab',
   'Saved',

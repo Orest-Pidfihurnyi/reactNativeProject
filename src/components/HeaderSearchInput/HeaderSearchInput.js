@@ -5,6 +5,7 @@ import T from 'prop-types';
 import colors from '../../styles/colors';
 import s from './styles';
 import Touchable from '../Touchable/Touchable';
+import NavigationService from '../../services/NavigationService';
 
 function HeaderSearchInput() {
   const [inputValue, setInputValue] = useState('');
@@ -59,7 +60,9 @@ function HeaderSearchInput() {
       </View>
       <View style={s.headerRight}>
         {!inputValue ? (
-          <Touchable>
+          <Touchable
+            onPress={() => NavigationService.navigateToFilter()}
+          >
             <FontAwesome
               name="filter"
               size={24}

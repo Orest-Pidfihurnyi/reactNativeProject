@@ -1,10 +1,14 @@
 import {
   applySnapshot,
+  getIdentifier,
   getParent,
   getRoot,
   onSnapshot,
   types,
+  isStateTreeNode,
+  resolveIdentifier,
 } from 'mobx-state-tree';
+import { normalize } from 'normalizr';
 import { AsyncStorage } from 'react-native';
 
 export function asyncModel(thunk, auto = true) {
@@ -27,6 +31,14 @@ export function asyncModel(thunk, auto = true) {
         }
 
         return promise;
+      },
+
+      merge(data, schema) {
+        const { entities, result } = normalize(data, schema);
+
+        getRoot(store).entities.merge(entities);
+
+        return result;
       },
 
       async _auto(promise) {
@@ -59,6 +71,21 @@ export function asyncModel(thunk, auto = true) {
     }));
 
   return types.optional(model, {});
+}
+
+export function safeReference(T) {
+  return types.reference(T, {
+    get(identifier, parent) {
+      if (isStateTreeNode(identifier)) {
+        identifier = getIdentifier(identifier);
+      }
+
+      return resolveIdentifier(T, parent, identifier);
+    },
+    set(value) {
+      return value;
+    },
+  });
 }
 
 export function createPersist(store) {
@@ -102,12 +129,10 @@ export function createCollection(ofModel, asyncModels = {}) {
       add(key, value) {
         store.collection.set(String(key), value);
       },
-    }))
-    .views((store) => ({
+
       get(key) {
         return store.collection.get(String(key));
       },
     }));
-
   return types.optional(collection, {});
 }

@@ -54,28 +54,7 @@ const s = StyleSheet.create({
   priceViewFree: {
     height: 67,
   },
-  changeCurrency: {
-    width: '100%',
-    height: 32,
-    borderRadius: 4,
-    flexDirection: 'row',
-    marginBottom: 8,
-  },
-  changeCurrencyItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '50%',
-    borderWidth: 1,
-    borderColor: colors.grayBorder,
-  },
-  leftButton: {
-    borderBottomLeftRadius: 4,
-    borderTopLeftRadius: 4,
-  },
-  rightButton: {
-    borderBottomRightRadius: 4,
-    borderTopRightRadius: 4,
-  },
+
   currencyText: {
     color: colors.primary,
     fontSize: 16,
@@ -87,12 +66,6 @@ const s = StyleSheet.create({
   },
   focusedCurrencyText: {
     color: colors.white,
-  },
-  hr: {
-    height: 1,
-    width: '100%',
-    marginVertical: 8,
-    backgroundColor: colors.grayBorder,
   },
   locationContainer: {
     flexDirection: 'row',

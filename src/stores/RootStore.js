@@ -6,12 +6,14 @@ import { ViewerStore } from './ViewerStore';
 import NavigationService from '../services/NavigationService';
 import { LatestProductsStore } from './Products/LatestProductsStore';
 import { EntitiesStore } from './EntitiesStore';
+import { SavedProductsStore } from './Products/SavedProductsStore';
 
 export const RootStore = types
   .model('RootStore', {
     auth: types.optional(AuthStore, {}),
     viewer: types.optional(ViewerStore, {}),
     latestProducts: types.optional(LatestProductsStore, {}),
+    savedProducts: types.optional(SavedProductsStore, {}),
 
     entities: types.optional(EntitiesStore, {}),
   })
@@ -21,7 +23,7 @@ export const RootStore = types
         const token = await AsyncStorage.getItem('___token');
 
         if (!token) {
-          NavigationService.navigatToAuth();
+          NavigationService.navigateToAuth();
           return;
         }
 

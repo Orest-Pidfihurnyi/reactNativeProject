@@ -32,11 +32,10 @@ function loginFlow({ password, email }) {
 
 function registerFlow({ password, email, fullName }) {
   return async () => {
-    const res = await Api.Auth.register({
+    await Api.Auth.register({
       password,
       email,
       fullName,
     });
-    console.log(res.data);
   };
 }

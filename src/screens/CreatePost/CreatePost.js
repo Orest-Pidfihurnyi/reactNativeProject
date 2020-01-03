@@ -14,13 +14,33 @@ import styles from '../../styles/styles';
 import { NavigationService } from '../../services';
 import colors from '../../styles/colors';
 import s from './styles';
+import Api from '../../api';
+import ChoosePriceSection from './components/ChoosePriceSection/ChoosePriceSection';
 import HeaderBackIcon from '../../components/headerBackIcon/HeaderBackIcon';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import SegmentedControl from '../../components/SegmentedControl/SegmentedControl';
 import HeaderRightComponent from '../../components/HeaderRightComponent/HeaderRightComponent';
 
 function CreatePost() {
   const actionRef = useRef();
   const [isFree, setIsFree] = useState(false);
+  const [segmentControlIndex, setSegmentControlIndex] = useState(0);
+  const [price, setPrice] = useState('');
+
+  async function uploadPhoto(imageUrl) {
+    try {
+      const form = new FormData();
+      // form.append('image', imageUrl);
+      form.append('image', {
+        image: imageUrl,
+      });
+      console.log(form);
+      const response = await Api.Products.uploadPhoto(form._parts);
+      console.log(response);
+    } catch (err) {
+      console.log('uploadPhotoError', err.response.data);
+    }
+  }
 
   async function onOpenCamera() {
     try {
@@ -30,7 +50,13 @@ function CreatePost() {
       );
       console.log(res);
 
-      await ImagePicker.launchCameraAsync();
+      const answer = await ImagePicker.launchCameraAsync({
+        width: 300,
+        height: 400,
+      });
+      if (answer.cancelled === false) {
+        uploadPhoto(answer.uri);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -39,14 +65,19 @@ function CreatePost() {
   async function onOpenGallery() {
     try {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      await ImagePicker.launchImageLibraryAsync();
+      const answer = await ImagePicker.launchImageLibraryAsync({
+        width: 300,
+        height: 400,
+      });
+      if (answer.cancelled === false) {
+        uploadPhoto(answer.uri);
+      }
     } catch (err) {
       console.log(err);
     }
   }
 
   function onChoose(index) {
-    console.log(index);
     if (index === 0) {
       onOpenCamera();
     }
@@ -59,10 +90,14 @@ function CreatePost() {
     actionRef.current.show();
   }
 
+  function changePriceHandler(value) {
+    setPrice(value);
+  }
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={55}
-      behavior="position"
+      behavior="padding"
       style={s.container}
     >
       <ScrollView bounces={false}>
@@ -92,53 +127,19 @@ function CreatePost() {
             isFree && s.priceViewFree,
           ]}
         >
-          <View style={s.changeCurrency}>
-            <Touchable
-              style={[
-                s.changeCurrencyItem,
-                !isFree && s.focusedCurrencyItem,
-                s.leftButton,
-              ]}
-              onPress={() => setIsFree(false)}
-            >
-              <Text
-                style={[
-                  s.currencyText,
-                  !isFree && s.focusedCurrencyText,
-                ]}
-              >
-                Price
-              </Text>
-            </Touchable>
-            <Touchable
-              style={[
-                s.changeCurrencyItem,
-                isFree && s.focusedCurrencyItem,
-                s.rightButton,
-              ]}
-              onPress={() => setIsFree(true)}
-            >
-              <Text
-                style={[
-                  s.currencyText,
-                  isFree && s.focusedCurrencyText,
-                ]}
-              >
-                Free
-              </Text>
-            </Touchable>
-          </View>
-          {!isFree && (
-            <React.Fragment>
-              <View style={s.hr} />
-              <CustomTextInput
-                placeholder="Enter price"
-                rightText="uah"
-                keyboardType="number-pad"
-                autoCompleteType="cc-number"
-              />
-            </React.Fragment>
-          )}
+          <SegmentedControl
+            segmentControlIndex={segmentControlIndex}
+            setSegmentControlIndex={setSegmentControlIndex}
+            isFree={isFree}
+            setIsFree={setIsFree}
+          />
+          {!isFree && segmentControlIndex === 0 ? (
+            <ChoosePriceSection
+              isFree={isFree}
+              price={price}
+              changePriceHandler={changePriceHandler}
+            />
+          ) : null}
         </View>
         <Text style={s.headerOfGroup}>location</Text>
         <Touchable style={s.locationContainer}>

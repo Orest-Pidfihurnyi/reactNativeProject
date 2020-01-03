@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\PC\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add import -encodedCommand from react-native-we -inputFormat xml -outputFormat text
+  C:\Program Files\nodejs\node.exe C:\Users\PC\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add *
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_231\bin;C:\Program Files\nodejs\;C:\Users\PC\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Users\PC\AppData\Roaming\npm;C:\Users\PC\AppData\Local\Programs\Microsoft VS Code\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-we: Not found
+  Error: https://registry.yarnpkg.com/*: Not found
       at Request.params.callback [as _callback] (C:\Users\PC\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66830:18)
       at Request.self.callback (C:\Users\PC\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140464:22)
       at Request.emit (events.js:209:13)
@@ -38,6 +38,7 @@ npm manifest:
     },
     "dependencies": {
       "@expo/vector-icons": "^10.0.6",
+      "@react-native-community/segmented-control": "^1.0.2",
       "@types/react-native": "^0.60.25",
       "axios": "^0.19.0",
       "expo": "^35.0.0",
@@ -50,6 +51,7 @@ npm manifest:
       "mobx-devtools-mst": "^0.9.21",
       "mobx-react": "^6.1.4",
       "mobx-state-tree": "^3.15.0",
+      "normalizr": "^3.4.1",
       "prop-types": "^15.7.2",
       "react": "16.8.3",
       "react-dom": "16.8.3",
@@ -59,6 +61,7 @@ npm manifest:
       "react-native-iphone-x-helper": "^1.2.1",
       "react-native-reanimated": "~1.2.0",
       "react-native-web": "^0.11.7",
+      "react-native-webview": "^8.0.1",
       "react-navigation": "^4.0.10",
       "react-navigation-stack": "^1.10.3",
       "react-navigation-tabs": "^2.6.2",
@@ -1021,6 +1024,11 @@ Lockfile:
       ws "^1.1.0"
       xcode "^2.0.0"
       xmldoc "^0.4.0"
+  
+  "@react-native-community/segmented-control@^1.0.2":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@react-native-community/segmented-control/-/segmented-control-1.0.2.tgz#10fa049019aa11611a146f324b0cab058df93c70"
+    integrity sha512-S4JXPKdwkqq9rIn9AcZEcyWke4TGXAxWW38ENDS+vFG8dV54wY0qCBDx+W15ZQ9sw/wM4ul55a68XKdYHDBdxA==
   
   "@react-navigation/core@^3.5.1":
     version "3.5.1"
@@ -2330,6 +2338,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
     integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
   
+  escape-string-regexp@2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+    integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
+  
   escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
     version "1.0.5"
     resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
@@ -3574,7 +3587,7 @@ Lockfile:
       strip-ansi "^5.1.0"
       through "^2.3.6"
   
-  invariant@^2.2.2, invariant@^2.2.4:
+  invariant@2.2.4, invariant@^2.2.2, invariant@^2.2.4:
     version "2.2.4"
     resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
     integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -4915,6 +4928,11 @@ Lockfile:
     dependencies:
       remove-trailing-separator "^1.0.1"
   
+  normalizr@^3.4.1:
+    version "3.4.1"
+    resolved "https://registry.yarnpkg.com/normalizr/-/normalizr-3.4.1.tgz#cf4f8ac7a4a0dd7fe504b77cbe9dd533cb3e45b5"
+    integrity sha512-gei+tJucERU8vYN6TFQL2k5YMLX2Yh7nlylKMJC65+Uu/LS3xQCDJc8cies72aHouycKYyVgcnyLRbaJsigXKw==
+  
   npm-bundled@^1.0.1:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.1.0.tgz#2e8fdb7e69eff2df963937b696243316537c284b"
@@ -5689,6 +5707,14 @@ Lockfile:
       normalize-css-color "^1.0.2"
       prop-types "^15.6.0"
       react-timer-mixin "^0.13.4"
+  
+  react-native-webview@^8.0.1:
+    version "8.0.1"
+    resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-8.0.1.tgz#f4dccb95b0f8d0c6e2afd92f3dc42470f1b537ef"
+    integrity sha512-qGjd0Solqss6MFAfDqZj14jOoKNSUtjlcJMIWILUDdd9djXIbaYJGiGkAvjSBj6NpO7c7UEnnO3z4hkjcR1PIA==
+    dependencies:
+      escape-string-regexp "2.0.0"
+      invariant "2.2.4"
   
   "react-native@https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz":
     version "0.59.8"

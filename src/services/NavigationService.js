@@ -50,6 +50,10 @@ class NavigationService {
     this.navigate(screens.CreatePost);
   }
 
+  navigateToFilter() {
+    this.navigate(screens.Filters);
+  }
+
   onGoBack() {
     this.navigation.dispatch(NavigationActions.back());
   }

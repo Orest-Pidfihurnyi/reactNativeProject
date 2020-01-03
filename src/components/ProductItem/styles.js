@@ -3,15 +3,15 @@ import colors from '../../styles/colors';
 
 const s = StyleSheet.create({
   productContainer: {
-    width: '50%',
-    height: 225,
-    justifyContent: 'center',
+    width: '49%',
+    height: 209,
+    paddingTop: 8,
     alignItems: 'center',
-    backgroundColor: colors.grayForBackground,
+    backgroundColor: colors.noColor,
   },
   productItem: {
     height: 209,
-    width: '90%',
+    width: '100%',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.grayBorder,

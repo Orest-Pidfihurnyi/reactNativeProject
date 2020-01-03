@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { View, FlatList, ActivityIndicator } from 'react-native';
-import ProductItem from '../../components/ProductItem/ProductItem';
+import { View } from 'react-native';
 import s from './styles';
 import { useStore } from '../../stores/createStore';
-import colors from '../../styles/colors';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
 import HeaderSearchInput from '../../components/HeaderSearchInput/HeaderSearchInput';
+import ProductList from '../../components/ProductsList/ProductsList';
 
 function BrowseScreen() {
   const store = useStore();
@@ -16,31 +15,26 @@ function BrowseScreen() {
   }, []);
 
   return (
-    <View style={s.container}>
-      {store.latestProducts.fetchLatest.isLoading ? (
-        <View style={s.activityIndicator}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      ) : (
-        <FlatList
-          data={store.latestProducts.items}
-          renderItem={({ item }) => <ProductItem item={item} />}
-          keyExtractor={(item) => item.id.toString()}
+    <View style={s.AllScreenView}>
+      <CustomHeader>
+        <HeaderSearchInput />
+      </CustomHeader>
+      <View style={s.container}>
+        <ProductList
+          store={store.latestProducts}
+          isLoading={store.latestProducts.fetchLatest.isLoading}
           numColumns={2}
-          contentContainerStyle={s.flatList}
+          columnWrapperStyle={s.flatList}
+          onEndReached={() => store.latestProducts.fetchMore.run()}
+          onEndReachedThreshold={0.3}
         />
-      )}
+      </View>
     </View>
   );
 }
 
 BrowseScreen.navigationOptions = () => ({
-  header: (
-    <CustomHeader>
-      <HeaderSearchInput />
-    </CustomHeader>
-  ),
-  headerStyle: { marginLeft: 0 },
+  header: null,
 });
 
 BrowseScreen.propTypes = {};

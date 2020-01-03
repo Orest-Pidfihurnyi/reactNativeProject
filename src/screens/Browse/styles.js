@@ -2,19 +2,18 @@ import { StyleSheet } from 'react-native';
 import colors from '../../styles/colors';
 
 const s = StyleSheet.create({
+  AllScreenView: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     paddingHorizontal: 8,
-    paddingTop: 8,
     backgroundColor: colors.grayForBackground,
   },
-  activityIndicator: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   flatList: {
+    flex: 1,
     justifyContent: 'space-between',
+    marginBottom: 8,
   },
 });
 
