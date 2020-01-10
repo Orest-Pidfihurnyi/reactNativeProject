@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native';
+import { StatusBar, Dimensions } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { isAndroid } from '../utils';
 
@@ -13,3 +13,5 @@ export const appBarHeight = isAndroid ? 56 : 44;
 export const headerHeight = appBarHeight + statusBarHeight;
 
 export const profileHeaderHeight = statusBarHeight + 130;
+
+export const windowParams = Dimensions.get('window');

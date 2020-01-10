@@ -13,7 +13,7 @@ const s = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.grayBorder,
     paddingHorizontal: 8,
-    backgroundColor: colors.white,
+    backgroundColor: colors.noColor,
     elevation: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -24,6 +24,13 @@ const s = StyleSheet.create({
   },
   profileHeightStyle: {
     height: profileHeaderHeight,
+  },
+  forProductDetails: {
+    borderBottomWidth: 0,
+    backgroundColor: colors.noColor,
+  },
+  forCreatePost: {
+    backgroundColor: colors.white,
   },
 });
 

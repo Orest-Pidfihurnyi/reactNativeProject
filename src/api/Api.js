@@ -49,6 +49,10 @@ export const Auth = {
   },
 };
 
+export function getOwnerById(ownerId) {
+  return axios.get(`${BASE_URL}users/${ownerId}`);
+}
+
 export const Account = {
   getUser() {
     return axios.get(`${BASE_URL}account`);
@@ -68,8 +72,40 @@ export const Products = {
     return axios.post(`${BASE_URL}products/${productId}/saved`);
   },
 
-  uploadPhoto(data) {
-    return axios.post(`${BASE_URL}upload/images`, data);
+  uploadPhoto(url, mimeType) {
+    const formData = new FormData();
+
+    formData.append('image', {
+      uri: url,
+      name: 'image',
+      type: `image/${mimeType}`,
+    });
+
+    return axios.post(`${BASE_URL}upload/images`, formData);
+  },
+
+  uploadProduct(
+    productTitle,
+    productDescription,
+    productPhotos,
+    productPrice,
+    productLocation,
+  ) {
+    console.log({
+      productTitle,
+      productDescription,
+      productPhotos,
+      productPrice,
+      productLocation,
+    });
+
+    return axios.post(`${BASE_URL}products`, {
+      title: productTitle,
+      description: productDescription,
+      photos: productPhotos,
+      price: +productPrice,
+      location: productLocation,
+    });
   },
 
   deleteProductFromSaved(productId) {

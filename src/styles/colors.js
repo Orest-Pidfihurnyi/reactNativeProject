@@ -1,11 +1,15 @@
 export default {
-  white: '#fff',
+  white: 'rgba(255,255,255,1)',
   primary: '#349A89',
   gray: '#A0A4B1',
   grayBorder: '#D6D6D6',
   black: '#333333',
   grayForBackground: '#E5E5E5',
   red: '#FF4060',
-  noColor: 'transparent',
+  noColor: 'rgba(255,255,255,0)',
+  transparent: 'rgba(255, 255, 255, 0)',
   addPhotosBtnBgc: '#F8F9FB',
+  blue: '#3498DB',
+  lightBlue: 'rgb(52,152,219)',
+  lightGreen: 'rgb(46,204,113)',
 };

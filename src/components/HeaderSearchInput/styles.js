@@ -20,7 +20,7 @@ const s = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     flexDirection: 'row',
-    borderColor: colors.addPhotosBtnBgc,
+    borderColor: colors.grayBorder,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 8,

@@ -12,7 +12,7 @@ function SavedScreen() {
   const store = useStore();
   useEffect(() => {
     store.savedProducts.fetchSaved.run();
-  }, [store.savedProducts.items.length]);
+  }, []);
 
   return (
     <View style={s.allScreenView}>
@@ -22,6 +22,7 @@ function SavedScreen() {
       <View style={s.container}>
         {store.savedProducts.items.length ? (
           <ProductsList
+            fetchMethod={() => store.savedProducts.fetchSaved.run()}
             isLoading={store.savedProducts.fetchSaved.isLoading}
             store={store.savedProducts}
             numColumns={2}

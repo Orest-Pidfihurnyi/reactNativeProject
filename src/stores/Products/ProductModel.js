@@ -14,6 +14,7 @@ export const ProductModel = types
     saved: false,
     createdAt: types.string,
     updatedAt: types.string,
+    chatId: types.maybeNull(types.number),
     owner: types.maybe(safeReference(UserModel)),
   })
   .actions((store) => ({

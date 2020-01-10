@@ -10,29 +10,38 @@ export const SavedProductsStore = types
   })
   .actions((store) => ({
     setItems(items) {
-      store.items = items;
+      store.items = items.slice();
     },
+    removeSavedItem(productId) {
+      store.setItems(
+        store.items.filter((item) => item.id !== productId),
+      );
+    },
+
+    addSavedItem(productId) {
+      store.setItems([...store.items, productId]);
+    },
+
     async addToSaved(productId) {
       try {
         const res = await Api.Products.addProductToSaved(productId);
 
-        if (res.data.success && !store.fetchSaved.isLoading) {
-          store.setItems([...store.items, productId]);
+        if (res.data.success) {
+          store.addSavedItem(productId);
         }
       } catch (err) {
         console.log('addToSaved error :', err);
       }
     },
+
     async removeFromSaved(productId) {
       try {
         const res = await Api.Products.deleteProductFromSaved(
           productId,
         );
 
-        if (res.data.success && !store.fetchSaved.isLoading) {
-          store.setItems(
-            store.items.filter((item) => item.id !== productId),
-          );
+        if (res.data.success) {
+          store.removeSavedItem(productId);
         }
       } catch (err) {
         console.log('removeFromSaved error:', err);
@@ -42,12 +51,15 @@ export const SavedProductsStore = types
 
 function fetchSaved() {
   return async function fetchSavedFlow(flow, store) {
+    if (store.fetchSaved.isLoading || flow.isLoading) {
+      return;
+    }
     try {
       const res = await Api.Products.fetchSaved();
-      if (res.data.length > -1) {
-        const ids = res.data.map((item) => item.id);
-        store.setItems(ids);
-      }
+
+      const ids = res.data.map((item) => item.id);
+
+      store.setItems(ids);
     } catch (err) {
       console.log('fetchSavedFlowError :', err);
     }

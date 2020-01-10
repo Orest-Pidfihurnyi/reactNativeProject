@@ -23,12 +23,8 @@ export const LatestProductsStore = types
       if (!Array.isArray(items)) {
         items = [items];
       }
+
       store.items.push(...items);
-    },
-  }))
-  .views((store) => ({
-    get asArray() {
-      return store.items.slice();
     },
   }));
 
@@ -50,14 +46,16 @@ function fetchMore() {
   return async function fetchMoreFlow(flow, store) {
     if (
       store.fetchLatest.isLoading ||
+      store.fetchMore.isLoading ||
       flow.isLoading ||
       store.hasNoMore ||
-      store.items.lenght === 0
+      store.items.length === 0
     ) {
       return;
     }
     try {
       flow.start();
+
       const from = store.items[store.items.length - 1];
 
       const res = await Api.Products.fetchMore({
@@ -67,7 +65,7 @@ function fetchMore() {
 
       const results = flow.merge(res.data, LatestProductCollection);
 
-      if (res.data.lenght < PAGE_SIZE) {
+      if (res.data.length < PAGE_SIZE) {
         store.setHasNoMore(true);
       }
 

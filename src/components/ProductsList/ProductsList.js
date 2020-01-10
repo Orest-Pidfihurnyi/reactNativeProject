@@ -7,12 +7,14 @@ import styles from '../../styles/styles';
 import FooterList from '../FooterList/FooterList';
 import ProductItem from '../ProductItem/ProductItem';
 
-function ProductList({ store, isLoading, ...props }) {
+function ProductList({ store, isLoading, fetchMethod, ...props }) {
   return store.items.length && !isLoading ? (
     <FlatList
       data={store.items}
+      onRefresh={() => fetchMethod()}
       renderItem={({ item }) => <ProductItem item={item} />}
       keyExtractor={(item) => item.id.toString()}
+      refreshing={isLoading}
       ListFooterComponent={() => (
         <FooterList
           fetch={
@@ -32,6 +34,7 @@ function ProductList({ store, isLoading, ...props }) {
 ProductList.propTypes = {
   store: T.object,
   isLoading: T.bool,
+  fetchMethod: T.func,
 };
 
 export default observer(ProductList);

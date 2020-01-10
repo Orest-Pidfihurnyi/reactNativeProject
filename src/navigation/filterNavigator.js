@@ -6,7 +6,4 @@ const routes = {
   [screens.Filters]: FiltersScreen,
 };
 
-export default createStackNavigator(routes, {
-  headerLayoutPreset: 'center',
-  headerMode: 'float',
-});
+export default createStackNavigator(routes, {});

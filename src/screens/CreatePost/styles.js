@@ -21,6 +21,7 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.grayBorder,
   },
+  fillAll: { flex: 1 },
   container: {
     flex: 1,
     backgroundColor: colors.grayForBackground,
@@ -33,6 +34,20 @@ const s = StyleSheet.create({
     height: 76,
     paddingHorizontal: 16,
     paddingVertical: 16,
+  },
+  imageStyles: {
+    width: 44,
+    height: 44,
+  },
+  imageButtonLinking: {
+    borderWidth: 1,
+    height: 44,
+    width: 44,
+    borderRadius: 4,
+    borderColor: colors.grayBorder,
+    backgroundColor: colors.noColor,
+    marginLeft: 16,
+    overflow: 'hidden',
   },
   addPhotoButton: {
     height: 44,
@@ -87,7 +102,16 @@ const s = StyleSheet.create({
     fontSize: 16,
     color: colors.primary,
   },
-  locationRight: {},
+  postButtonText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  headerTitle: {
+    color: colors.black,
+    fontSize: 16,
+    fontWeight: '500',
+  },
 });
 
 export default s;

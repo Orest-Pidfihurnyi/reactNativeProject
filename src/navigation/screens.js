@@ -8,6 +8,7 @@ export default mirror([
   'MainApp',
   'Filters',
   'Home',
+  'ProductDetails',
   'SavedTab',
   'Saved',
   'InboxTab',
@@ -20,4 +21,5 @@ export default mirror([
   'Browse',
   'CreatePost',
   'Settings',
+  'LocationFilter',
 ]);

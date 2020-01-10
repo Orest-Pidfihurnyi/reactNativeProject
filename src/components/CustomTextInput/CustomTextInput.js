@@ -27,7 +27,7 @@ function CustomTextInput({
         {...props}
         placeholder={placeholder}
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={(text) => onChangeText(text)}
         onFocus={() => {
           setIsFocused(true);
         }}

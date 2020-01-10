@@ -1,42 +1,91 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   Text,
   ScrollView,
   View,
   KeyboardAvoidingView,
+  Image,
+  Alert,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
+import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import { Linking } from 'expo';
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import CustomHeader from '../../components/CustomHeader/CustomHeader';
 import Touchable from '../../components/Touchable/Touchable';
-import styles from '../../styles/styles';
 import { NavigationService } from '../../services';
 import colors from '../../styles/colors';
 import s from './styles';
+import { getMimeType } from '../../utils';
 import Api from '../../api';
+import { useStore } from '../../stores/createStore';
 import ChoosePriceSection from './components/ChoosePriceSection/ChoosePriceSection';
-import HeaderBackIcon from '../../components/headerBackIcon/HeaderBackIcon';
 import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
 import SegmentedControl from '../../components/SegmentedControl/SegmentedControl';
-import HeaderRightComponent from '../../components/HeaderRightComponent/HeaderRightComponent';
+import screens from '../../navigation/screens';
 
 function CreatePost() {
+  const store = useStore();
+
   const actionRef = useRef();
   const [isFree, setIsFree] = useState(false);
-  const [segmentControlIndex, setSegmentControlIndex] = useState(0);
-  const [price, setPrice] = useState('');
+
+  const [productPrice, setProductPrice] = useState('');
+  const [productTitle, setProductTitle] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+  const [productLocation, setProductLocation] = useState('');
+  const [photos, setPhotos] = useState([]);
+
+  useEffect(() => {
+    setProductLocation(
+      store.productsLocationStore.locationForCreatingPost,
+    );
+  }, [store.productsLocationStore.locationForCreatingPost]);
+
+  async function onSubmit(
+    title,
+    description,
+    photosArr,
+    price,
+    locationProduct,
+  ) {
+    if (!title && !description && !productLocation) {
+      Alert.alert(
+        'FIll valid data',
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    } else {
+      const actualPrice = isFree ? 0 : price || 0;
+
+      await Api.Products.uploadProduct(
+        title,
+        description,
+        photosArr,
+        actualPrice,
+        locationProduct,
+      );
+
+      NavigationService.navigate(screens.Browse);
+    }
+  }
 
   async function uploadPhoto(imageUrl) {
+    const mimeType = getMimeType(imageUrl);
     try {
-      const form = new FormData();
-      // form.append('image', imageUrl);
-      form.append('image', {
-        image: imageUrl,
-      });
-      console.log(form);
-      const response = await Api.Products.uploadPhoto(form._parts);
-      console.log(response);
+      const response = await Api.Products.uploadPhoto(
+        imageUrl,
+        mimeType,
+      );
+
+      setPhotos([...photos, response.data]);
     } catch (err) {
       console.log('uploadPhotoError', err.response.data);
     }
@@ -44,15 +93,14 @@ function CreatePost() {
 
   async function onOpenCamera() {
     try {
-      const res = await Permissions.askAsync(
+      await Permissions.askAsync(
         Permissions.CAMERA,
         Permissions.CAMERA_ROLL,
       );
-      console.log(res);
 
       const answer = await ImagePicker.launchCameraAsync({
-        width: 300,
-        height: 400,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.5,
       });
       if (answer.cancelled === false) {
         uploadPhoto(answer.uri);
@@ -66,8 +114,8 @@ function CreatePost() {
     try {
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
       const answer = await ImagePicker.launchImageLibraryAsync({
-        width: 300,
-        height: 400,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.5,
       });
       if (answer.cancelled === false) {
         uploadPhoto(answer.uri);
@@ -91,23 +139,51 @@ function CreatePost() {
   }
 
   function changePriceHandler(value) {
-    setPrice(value);
+    setProductPrice(value);
   }
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={55}
-      behavior="padding"
-      style={s.container}
-    >
-      <ScrollView bounces={false}>
+    <KeyboardAvoidingView behavior="padding" style={s.container}>
+      <CustomHeader isCreatingPost>
+        <Touchable onPress={() => NavigationService.onGoBack()}>
+          <Ionicons
+            name="ios-close"
+            size={32}
+            color={colors.primary}
+          />
+        </Touchable>
+        <View>
+          <Text style={s.headerTitle}>New Post</Text>
+        </View>
+        <Touchable
+          onPress={() =>
+            onSubmit(
+              productTitle,
+              productDescription,
+              photos,
+              productPrice,
+              productLocation,
+            )
+          }
+        >
+          <Text style={s.postButtonText}>Post</Text>
+        </Touchable>
+      </CustomHeader>
+
+      <ScrollView style={s.fillAll} bounces={false}>
         <Text style={s.headerOfGroup}>key information</Text>
         <View style={s.textInputWrapper}>
-          <CustomTextInput placeholder="Title" />
+          <CustomTextInput
+            placeholder="Title"
+            value={productTitle}
+            onChangeText={setProductTitle}
+          />
           <CustomTextInput
             multiline
             placeholder="Description"
             height={s.textAreaInput}
+            value={productDescription}
+            onChangeText={setProductDescription}
           />
         </View>
         <Text style={s.headerOfGroup}>photos</Text>
@@ -118,6 +194,19 @@ function CreatePost() {
           >
             <Feather name="plus" size={32} color={colors.gray} />
           </Touchable>
+          {!!photos.length &&
+            photos.map((imgUrl) => (
+              <Touchable
+                key={imgUrl}
+                style={s.imageButtonLinking}
+                onPress={() => Linking.openURL(imgUrl)}
+              >
+                <Image
+                  style={s.imageStyles}
+                  source={{ uri: imgUrl }}
+                />
+              </Touchable>
+            ))}
         </View>
         <Text style={s.headerOfGroup}>price</Text>
         <View
@@ -127,22 +216,24 @@ function CreatePost() {
             isFree && s.priceViewFree,
           ]}
         >
-          <SegmentedControl
-            segmentControlIndex={segmentControlIndex}
-            setSegmentControlIndex={setSegmentControlIndex}
-            isFree={isFree}
-            setIsFree={setIsFree}
-          />
-          {!isFree && segmentControlIndex === 0 ? (
+          <SegmentedControl isFree={isFree} setIsFree={setIsFree} />
+          {!isFree ? (
             <ChoosePriceSection
               isFree={isFree}
-              price={price}
+              price={productPrice}
               changePriceHandler={changePriceHandler}
             />
           ) : null}
         </View>
         <Text style={s.headerOfGroup}>location</Text>
-        <Touchable style={s.locationContainer}>
+        <Touchable
+          style={s.locationContainer}
+          onPress={() =>
+            NavigationService.navigate(screens.LocationFilter, {
+              navigatedFrom: 'CreatePost',
+            })
+          }
+        >
           <View style={s.locationLeft}>
             <MaterialIcons
               name="location-on"
@@ -160,36 +251,21 @@ function CreatePost() {
             />
           </View>
         </Touchable>
-
-        <ActionSheet
-          ref={actionRef}
-          title="Choose directory"
-          options={['Camera', 'Gallary', 'Cancel']}
-          cancelButtonIndex={2}
-          destructiveButtonIndex={2}
-          onPress={onChoose}
-        />
       </ScrollView>
+      <ActionSheet
+        ref={actionRef}
+        title="Choose directory"
+        options={['Camera', 'Gallery', 'Cancel']}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={2}
+        onPress={onChoose}
+      />
     </KeyboardAvoidingView>
   );
 }
 
 CreatePost.navigationOptions = () => ({
-  title: 'Create Post',
-  headerStyle: styles.header,
-  headerLeft: (props) => (
-    <HeaderBackIcon
-      {...props}
-      onPress={() => NavigationService.onGoBack()}
-    >
-      <Ionicons name="ios-close" size={32} color={colors.primary} />
-    </HeaderBackIcon>
-  ),
-  headerRight: (
-    <HeaderRightComponent>
-      <Text style={styles.headerRightCreatePost}>Post</Text>
-    </HeaderRightComponent>
-  ),
+  header: null,
 });
 
-export default CreatePost;
+export default observer(CreatePost);

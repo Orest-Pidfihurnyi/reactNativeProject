@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, View, Text } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import T from 'prop-types';
 import colors from '../../styles/colors';
 import s from './styles';
 import Touchable from '../Touchable/Touchable';

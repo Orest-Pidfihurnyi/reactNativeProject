@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, Alert } from 'react-native';
 import { observer } from 'mobx-react';
 import { Foundation } from '@expo/vector-icons';
 import T from 'prop-types';
@@ -8,6 +8,8 @@ import colors from '../../styles/colors';
 import Touchable from '../Touchable/Touchable';
 import s from './styles';
 import { useStore } from '../../stores/createStore';
+import { NavigationService } from '../../services';
+import screens from '../../navigation/screens';
 
 function ProductItem({ item }) {
   const store = useStore();
@@ -23,14 +25,25 @@ function ProductItem({ item }) {
   }
 
   function handleChangeSaved(id) {
-    if (isSaved) {
-      setIsSaved(!isSaved);
-      item.setSaved();
+    if (item.ownerId === store.viewer.user.id) {
+      Alert.alert(
+        "You can't add own product to saved",
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    } else if (isSaved) {
       store.savedProducts.removeFromSaved(id);
-    } else {
       setIsSaved(!isSaved);
       item.setSaved();
+    } else {
       store.savedProducts.addToSaved(id);
+      setIsSaved(!isSaved);
+      item.setSaved();
     }
   }
 
@@ -38,7 +51,14 @@ function ProductItem({ item }) {
     <View style={s.productContainer}>
       <View style={s.productItem}>
         {item.photos && item.photos.length && !isError ? (
-          <View style={s.imageContainer}>
+          <Touchable
+            onPress={() =>
+              NavigationService.navigate(screens.ProductDetails, {
+                productId: `${item.id}`,
+              })
+            }
+            style={s.imageContainer}
+          >
             <Image
               defaultSource={imageNotFound}
               style={s.productImage}
@@ -47,11 +67,18 @@ function ProductItem({ item }) {
               }}
               onError={() => setIsError(true)}
             />
-          </View>
+          </Touchable>
         ) : (
-          <View style={s.imageContainer}>
+          <Touchable
+            onPress={() =>
+              NavigationService.navigate(screens.ProductDetails, {
+                productId: item.id,
+              })
+            }
+            style={s.imageContainer}
+          >
             <Image source={imageNotFound} style={s.productImage} />
-          </View>
+          </Touchable>
         )}
         <View style={s.productBottomContainer}>
           <Text style={s.productTitle}>{item.title}</Text>

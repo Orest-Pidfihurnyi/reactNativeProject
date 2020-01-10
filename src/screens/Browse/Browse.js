@@ -16,11 +16,9 @@ function BrowseScreen() {
 
   return (
     <View style={s.AllScreenView}>
-      <CustomHeader>
-        <HeaderSearchInput />
-      </CustomHeader>
       <View style={s.container}>
         <ProductList
+          fetchMethod={() => store.latestProducts.fetchLatest.run()}
           store={store.latestProducts}
           isLoading={store.latestProducts.fetchLatest.isLoading}
           numColumns={2}
@@ -34,7 +32,11 @@ function BrowseScreen() {
 }
 
 BrowseScreen.navigationOptions = () => ({
-  header: null,
+  header: (
+    <CustomHeader>
+      <HeaderSearchInput />
+    </CustomHeader>
+  ),
 });
 
 BrowseScreen.propTypes = {};

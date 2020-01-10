@@ -10,6 +10,7 @@ import {
 } from 'mobx-state-tree';
 import { normalize } from 'normalizr';
 import { AsyncStorage } from 'react-native';
+import { useStore } from './createStore';
 
 export function asyncModel(thunk, auto = true) {
   const model = types
@@ -135,4 +136,9 @@ export function createCollection(ofModel, asyncModels = {}) {
       },
     }));
   return types.optional(collection, {});
+}
+
+export function useProductCollection() {
+  const store = useStore();
+  return store.entities.products;
 }

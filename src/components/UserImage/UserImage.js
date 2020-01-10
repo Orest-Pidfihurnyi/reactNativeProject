@@ -1,17 +1,20 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { View, Text } from 'react-native';
 import T from 'prop-types';
-import noFound from '../../../assets/imgNotFound.png';
-import { useStore } from '../../stores/createStore';
+import s from './styles';
 
-function UserImage({ style }) {
-  const { avatar } = useStore((store) => store.viewer.user);
-
-  return <Image source={avatar || noFound} style={style} />;
+function UserImage({ style, initials, initialsStyle }) {
+  return (
+    <View style={style}>
+      <Text style={[s.initials, initialsStyle]}>{initials}</Text>
+    </View>
+  );
 }
 
 UserImage.propTypes = {
   style: T.object,
+  initialsStyle: T.object,
+  initials: T.string,
 };
 
 export default UserImage;

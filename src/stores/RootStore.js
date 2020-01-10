@@ -6,6 +6,8 @@ import { ViewerStore } from './ViewerStore';
 import NavigationService from '../services/NavigationService';
 import { LatestProductsStore } from './Products/LatestProductsStore';
 import { EntitiesStore } from './EntitiesStore';
+import { ProductsLocationStore } from './Products/ProductsLocation/ProductsLocationStore';
+import { OwnerOfProductStore } from './Users/OwnerOfProductStore';
 import { SavedProductsStore } from './Products/SavedProductsStore';
 
 export const RootStore = types
@@ -16,6 +18,8 @@ export const RootStore = types
     savedProducts: types.optional(SavedProductsStore, {}),
 
     entities: types.optional(EntitiesStore, {}),
+    productOwner: types.optional(OwnerOfProductStore, {}),
+    productsLocationStore: types.optional(ProductsLocationStore, {}),
   })
   .actions((store) => ({
     async bootstrap() {

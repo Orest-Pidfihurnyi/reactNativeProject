@@ -1,29 +1,3 @@
-// import { ProductModel } from './ProductModel';
-// import { asyncModel, createCollection } from '../utils';
-// import { useStore } from '../createStore';
-// import * as Api from '../../api/Api';
-// import { Product } from '../schema';
-
-// export const ProductsCollection = createCollection(ProductModel, {
-//   getProduct: asyncModel(getProduct),
-// });
-
-// export function useProductCollection() {
-//   const store = useStore();
-//   return store.entities.products;
-// }
-
-// function getProduct(id) {
-//   return async function getProductFlow(flow) {
-//     try {
-//       const res = await Api.Products.getById(id);
-//       flow.merge(res.data, Product);
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
-// }
-
 import { ProductModel } from './ProductModel';
 import { asyncModel, createCollection } from '../utils';
 import Api from '../../api';
@@ -37,9 +11,10 @@ function getProduct(id) {
   return async function getProductFlow(flow) {
     try {
       const res = await Api.Products.getById(id);
+      console.log(res.data);
       flow.merge(res.data, Product);
     } catch (err) {
-      console.log(err);
+      console.log('getProductByiD error', err);
     }
   };
 }

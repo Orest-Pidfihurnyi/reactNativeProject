@@ -1,8 +1,7 @@
 import { types } from 'mobx-state-tree';
-import { OwnProducts } from './Products/OwnProductsStore';
 
-export const UserModel = types
-  .model('UserModel', {
+export const OwnerOfProduct = types
+  .model('OwnerOfProduct', {
     id: types.identifierNumber,
     fullName: types.maybeNull(types.string),
     location: types.maybeNull(types.string),
@@ -10,14 +9,22 @@ export const UserModel = types
     phone: types.maybeNull(types.string),
     createdAt: types.maybeNull(types.string),
     updatedAt: types.maybeNull(types.string),
-    email: types.maybeNull(types.string),
-    // ownProducts: types.maybeNull(OwnProducts),
   })
   .views((store) => ({
     get initials() {
       if (store.fullName) {
         const [firstName, lastName] = store.fullName.split(' ');
-        return `${firstName[0]} ${lastName[0]}` || `${firstName}`;
+        if (lastName) {
+          return `${firstName[0]} ${lastName[0]}`;
+        }
+        return `${firstName[0]}`;
+      }
+      return null;
+    },
+    get firstName() {
+      if (store.fullName) {
+        const [firstName] = store.fullName.split(' ');
+        return `${firstName}`;
       }
       return null;
     },

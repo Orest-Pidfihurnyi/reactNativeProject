@@ -14,10 +14,11 @@ class NavigationService {
     this.navigation = navigation;
   }
 
-  navigate(routeName) {
+  navigate(routeName, params) {
     this.navigation.dispatch(
       NavigationActions.navigate({
         routeName,
+        params,
       }),
     );
   }
@@ -52,6 +53,10 @@ class NavigationService {
 
   navigateToFilter() {
     this.navigate(screens.Filters);
+  }
+
+  navigateToLocationFilterScreen() {
+    this.navigate(screens.LocationFilter);
   }
 
   onGoBack() {
