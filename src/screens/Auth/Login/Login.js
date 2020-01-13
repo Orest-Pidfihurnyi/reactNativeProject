@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView } from 'react-native';
+import { View, KeyboardAvoidingView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import s from './styles';
@@ -23,7 +23,20 @@ function LoginScreen() {
       password,
     });
 
-    NavigationService.navigateToApp();
+    if (!store.auth.login.isError) {
+      NavigationService.navigateToApp();
+    } else {
+      Alert.alert(
+        'Login data was wrong, try again',
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    }
   }
 
   return (
@@ -57,7 +70,7 @@ function LoginScreen() {
               keyboardType="email-address"
               error={errors.email}
               value={values.email}
-              autoCapitalize="sentences"
+              autoCapitalize="none"
             />
             <AuthInput
               label="Password"
@@ -79,14 +92,6 @@ function LoginScreen() {
 LoginScreen.navigationOptions = () => ({
   title: 'Login',
   headerStyle: styles.header,
-  headerLeft: (props) => (
-    <HeaderBackIcon
-      {...props}
-      onPress={() => NavigationService.onGoBack()}
-    >
-      <Ionicons name="ios-arrow-back" size={32} color={colors.gray} />
-    </HeaderBackIcon>
-  ),
 });
 
 LoginScreen.propTypes = {};

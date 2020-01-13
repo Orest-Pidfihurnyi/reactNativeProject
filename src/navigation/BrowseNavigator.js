@@ -15,7 +15,7 @@ export default createStackNavigator(routes, {
     tabBarLabel: 'Browse',
     tabBarIcon: ({ tintColor }) => {
       return (
-        <Ionicons name="md-search" size={20} color={tintColor} />
+        <Ionicons name="md-search" size={32} color={tintColor} />
       );
     },
   },

@@ -17,7 +17,10 @@ export const UserModel = types
     get initials() {
       if (store.fullName) {
         const [firstName, lastName] = store.fullName.split(' ');
-        return `${firstName[0]} ${lastName[0]}` || `${firstName}`;
+        if (lastName) {
+          return `${firstName[0]} ${lastName[0]}`;
+        }
+        return `${firstName[0]}`;
       }
       return null;
     },

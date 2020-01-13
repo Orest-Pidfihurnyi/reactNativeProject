@@ -1,14 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { View, ActivityIndicator, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import T from 'prop-types';
-import colors from '../../styles/colors';
-import styles from '../../styles/styles';
 import FooterList from '../FooterList/FooterList';
 import ProductItem from '../ProductItem/ProductItem';
 
 function ProductList({ store, isLoading, fetchMethod, ...props }) {
-  return store.items.length && !isLoading ? (
+  return store.items.length ? (
     <FlatList
       data={store.items}
       onRefresh={() => fetchMethod()}
@@ -24,11 +22,7 @@ function ProductList({ store, isLoading, fetchMethod, ...props }) {
       )}
       {...props}
     />
-  ) : (
-    <View style={styles.activityIndicator}>
-      <ActivityIndicator size="large" color={colors.primary} />
-    </View>
-  );
+  ) : null;
 }
 
 ProductList.propTypes = {

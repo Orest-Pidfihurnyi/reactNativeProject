@@ -24,6 +24,7 @@ const s = StyleSheet.create({
   },
   profileHeightStyle: {
     height: profileHeaderHeight,
+    backgroundColor: colors.white,
   },
   forProductDetails: {
     borderBottomWidth: 0,

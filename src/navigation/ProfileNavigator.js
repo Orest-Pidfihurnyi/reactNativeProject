@@ -14,7 +14,7 @@ export default createStackNavigator(routes, {
   navigationOptions: {
     tabBarLabel: 'Profile',
     tabBarIcon: ({ tintColor }) => {
-      return <FontAwesome name="user" size={20} color={tintColor} />;
+      return <FontAwesome name="user" size={32} color={tintColor} />;
     },
   },
   headerLayoutPreset: 'center',

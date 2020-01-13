@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import {
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  Alert,
+} from 'react-native';
 import { Formik } from 'formik';
 import { Ionicons } from '@expo/vector-icons';
 import s from './styles';
@@ -24,7 +29,31 @@ function RegisterScreen() {
       fullName,
     });
 
-    NavigationService.navigateToLogin();
+    if (store.auth.register.isError) {
+      Alert.alert(
+        'Register data was wrong, try again',
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    } else {
+      Alert.alert(
+        'You was successfully registered',
+        'Press OK to login',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              NavigationService.navigateToLogin();
+            },
+          },
+        ],
+      );
+    }
   }
 
   return (
@@ -89,7 +118,6 @@ function RegisterScreen() {
               />
             </View>
           </ScrollView>
-
           <AuthBottom isRegister onSubmit={handleSubmit} />
         </KeyboardAvoidingView>
       )}

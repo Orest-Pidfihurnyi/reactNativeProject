@@ -10,7 +10,7 @@ export const ViewerStore = types
     setViewer(user) {
       const root = getRoot(store);
 
-      root.entities.users.add(user.id, user);
       store.user = user.id;
+      root.entities.users.add(user.id, user);
     },
   }));

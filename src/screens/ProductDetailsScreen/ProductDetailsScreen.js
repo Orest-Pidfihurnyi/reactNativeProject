@@ -34,6 +34,8 @@ function ProductDetailsScreen({ navigation }) {
   const collection = useProductCollection();
   const product = collection.get(productId);
 
+  console.log(product);
+
   const productDescription =
     product.description || 'There is no description for this product';
 
@@ -73,6 +75,12 @@ function ProductDetailsScreen({ navigation }) {
       );
     }
   }
+
+  // async function handleCreateChat() {
+  //   try {
+  //     const chatId = await product.createChat.run
+  //   }
+  // }
 
   function renderViewMore(onPress) {
     return (

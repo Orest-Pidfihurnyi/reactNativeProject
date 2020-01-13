@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Image,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import { observer } from 'mobx-react';
@@ -34,6 +35,7 @@ function CreatePost() {
 
   const [productPrice, setProductPrice] = useState('');
   const [productTitle, setProductTitle] = useState('');
+  const [isPhotoLoading, setIsPhotoLoading] = useState(false);
   const [productDescription, setProductDescription] = useState('');
   const [productLocation, setProductLocation] = useState('');
   const [photos, setPhotos] = useState([]);
@@ -79,6 +81,8 @@ function CreatePost() {
 
   async function uploadPhoto(imageUrl) {
     const mimeType = getMimeType(imageUrl);
+    setIsPhotoLoading(true);
+
     try {
       const response = await Api.Products.uploadPhoto(
         imageUrl,
@@ -86,6 +90,7 @@ function CreatePost() {
       );
 
       setPhotos([...photos, response.data]);
+      setIsPhotoLoading(false);
     } catch (err) {
       console.log('uploadPhotoError', err.response.data);
     }
@@ -207,6 +212,14 @@ function CreatePost() {
                 />
               </Touchable>
             ))}
+          {isPhotoLoading && (
+            <View style={s.photoLoadingIndicatorContainer}>
+              <ActivityIndicator
+                size="small"
+                color={colors.primary}
+              />
+            </View>
+          )}
         </View>
         <Text style={s.headerOfGroup}>price</Text>
         <View
@@ -217,13 +230,13 @@ function CreatePost() {
           ]}
         >
           <SegmentedControl isFree={isFree} setIsFree={setIsFree} />
-          {!isFree ? (
+          {!isFree && (
             <ChoosePriceSection
               isFree={isFree}
               price={productPrice}
               changePriceHandler={changePriceHandler}
             />
-          ) : null}
+          )}
         </View>
         <Text style={s.headerOfGroup}>location</Text>
         <Touchable

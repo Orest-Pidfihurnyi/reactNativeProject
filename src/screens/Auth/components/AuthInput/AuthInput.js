@@ -8,36 +8,53 @@ import colors from '../../../../styles/colors';
 const AuthInput = ({ label, secured, error, isLogin, ...props }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
+  const [wasChecked, setWasChecked] = useState(false);
+
+  function handleBlur() {
+    setIsFocused(false);
+    setWasChecked(true);
+  }
 
   return (
     <View
       style={[
         s.emailContainer,
         isFocused && s.focusedInput,
-        error && isTouched && s.errorInput,
+        error && wasChecked && isTouched && s.errorInput,
       ]}
     >
-      {error && isTouched && (
+      {error && wasChecked && isTouched && (
         <Text style={s.errorIcon}>
           <MaterialIcons name="error" color={colors.red} size={16} />
         </Text>
       )}
       <View style={[s.labelContainer]}>
-        <Text style={[s.label, error && isTouched && s.labelError]}>
-          {label}
-        </Text>
         <Text
           style={[
+            s.label,
+            error && wasChecked && isTouched && s.labelError,
+          ]}
+        >
+          {label}
+        </Text>
+        <View
+          style={[
             s.labelBackgroundLine,
-            isTouched && s.labelBackgroundLineTouched,
+            isTouched &&
+              wasChecked &&
+              error &&
+              s.labelBackgroundLineTouchedPlusError,
             isFocused && s.labelBackgroundLineFocused,
           ]}
         />
       </View>
-      {error && isTouched && (
+      {error && wasChecked && isTouched && (
         <Text
           style={[
-            error && isTouched && s.errorNotActiveMessage,
+            error &&
+              wasChecked &&
+              isTouched &&
+              s.errorNotActiveMessage,
             isTouched && error && isFocused && s.errorMessage,
           ]}
         >
@@ -55,7 +72,7 @@ const AuthInput = ({ label, secured, error, isLogin, ...props }) => {
           setIsFocused(true);
           setIsTouched(true);
         }}
-        onBlur={() => setIsFocused(false)}
+        onBlur={handleBlur}
       />
     </View>
   );

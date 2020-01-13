@@ -49,6 +49,18 @@ const s = StyleSheet.create({
     marginLeft: 16,
     overflow: 'hidden',
   },
+  photoLoadingIndicatorContainer: {
+    borderWidth: 1,
+    height: 44,
+    width: 44,
+    borderRadius: 4,
+    borderColor: colors.grayBorder,
+    backgroundColor: colors.noColor,
+    marginLeft: 16,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   addPhotoButton: {
     height: 44,
     width: 44,

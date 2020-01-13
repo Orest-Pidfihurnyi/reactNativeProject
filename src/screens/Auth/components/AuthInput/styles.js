@@ -54,18 +54,18 @@ const s = StyleSheet.create({
     position: 'absolute',
     zIndex: 2,
     height: 3,
-    top: 8,
+    top: 10,
     width: '100%',
     backgroundColor: colors.white,
   },
-  labelBackgroundLineTouched: {
-    top: 8,
+  labelBackgroundLineTouchedPlusError: {
+    top: 9,
   },
   labelBackgroundLineFocused: {
     position: 'absolute',
     height: 3,
     width: '100%',
-    top: 8,
+    top: 9,
     backgroundColor: colors.white,
   },
   labelError: {

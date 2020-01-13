@@ -14,7 +14,7 @@ const InboxNavigator = createStackNavigator(routes, {
     tabBarLabel: 'Inbox',
     tabBarIcon: ({ tintColor }) => {
       return (
-        <MaterialIcons name="inbox" size={20} color={tintColor} />
+        <MaterialIcons name="inbox" size={32} color={tintColor} />
       );
     },
   },
