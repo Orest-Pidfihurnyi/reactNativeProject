@@ -4,10 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import BrowseScreen from '../screens/Browse/Browse';
 import screens from './screens';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen/ProductDetailsScreen';
+import ProfileScreen from '../screens/Profile/Profile';
 
 const routes = {
   [screens.Browse]: BrowseScreen,
   [screens.ProductDetails]: ProductDetailsScreen,
+  [screens.Profile]: ProfileScreen,
 };
 
 export default createStackNavigator(routes, {

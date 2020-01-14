@@ -9,6 +9,7 @@ import { EntitiesStore } from './EntitiesStore';
 import { ProductsLocationStore } from './Products/ProductsLocation/ProductsLocationStore';
 import { OwnerOfProductStore } from './Users/OwnerOfProductStore';
 import { SavedProductsStore } from './Products/SavedProductsStore';
+import { OwnProducts } from './Products/OwnProductsStore';
 
 export const RootStore = types
   .model('RootStore', {
@@ -16,7 +17,7 @@ export const RootStore = types
     viewer: types.optional(ViewerStore, {}),
     latestProducts: types.optional(LatestProductsStore, {}),
     savedProducts: types.optional(SavedProductsStore, {}),
-
+    ownProducts: types.optional(OwnProducts, {}),
     entities: types.optional(EntitiesStore, {}),
     productOwner: types.optional(OwnerOfProductStore, {}),
     productsLocationStore: types.optional(ProductsLocationStore, {}),

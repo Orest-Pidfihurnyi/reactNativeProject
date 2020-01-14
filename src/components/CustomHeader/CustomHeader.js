@@ -6,7 +6,7 @@ import { isAndroid } from '../../utils';
 
 function CustomHeader({
   children,
-  isProfile,
+  isLarge,
   isProductDetails,
   isCreatingPost,
 }) {
@@ -15,7 +15,7 @@ function CustomHeader({
       style={[
         s.headerContainer,
         !isAndroid && s.iphoneStyles,
-        isProfile && s.profileHeightStyle,
+        isLarge && s.profileLargeStyle,
         isProductDetails && s.forProductDetails,
         isCreatingPost && s.forCreatePost,
       ]}
@@ -27,7 +27,7 @@ function CustomHeader({
 
 CustomHeader.propTypes = {
   children: T.node,
-  isProfile: T.bool,
+  isLarge: T.bool,
   isProductDetails: T.bool,
   isCreatingPost: T.bool,
 };

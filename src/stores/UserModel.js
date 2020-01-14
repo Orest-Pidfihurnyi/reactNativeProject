@@ -11,7 +11,7 @@ export const UserModel = types
     createdAt: types.maybeNull(types.string),
     updatedAt: types.maybeNull(types.string),
     email: types.maybeNull(types.string),
-    // ownProducts: types.maybeNull(OwnProducts),
+    ownProducts: types.optional(OwnProducts, {}),
   })
   .views((store) => ({
     get initials() {
@@ -23,5 +23,13 @@ export const UserModel = types
         return `${firstName[0]}`;
       }
       return null;
+    },
+    get firstName() {
+      if (store.fullName) {
+        const [firstName] = store.fullName.split(' ');
+
+        return firstName;
+      }
+      return 'No name';
     },
   }));

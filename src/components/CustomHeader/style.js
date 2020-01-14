@@ -12,17 +12,17 @@ const s = StyleSheet.create({
     color: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.grayBorder,
-    paddingHorizontal: 8,
-    backgroundColor: colors.noColor,
+    paddingHorizontal: 16,
     elevation: 0,
     flexDirection: 'row',
+    backgroundColor: colors.white,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   iphoneStyles: {
     paddingBottom: 8,
   },
-  profileHeightStyle: {
+  profileLargeStyle: {
     height: profileHeaderHeight,
     backgroundColor: colors.white,
   },

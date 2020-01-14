@@ -6,6 +6,20 @@ const s = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.grayForBackground,
   },
+
+  flatList: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+
+  profileContent: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+
+  // large header styles
+
   userAvatar: {
     height: 72,
     width: 72,
@@ -27,7 +41,13 @@ const s = StyleSheet.create({
   settingsButton: {
     position: 'absolute',
     top: 0,
-    right: 16,
+    right: 1,
+  },
+
+  backButtonLargeHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 1,
   },
   headerBottom: {
     flexDirection: 'row',
@@ -50,6 +70,42 @@ const s = StyleSheet.create({
     borderRightWidth: 1,
     borderLeftWidth: 1,
   },
+
+  // small header styles
+
+  leftHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  headerSmallUserContainer: {
+    marginLeft: 19,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  smallUserAvatar: {
+    height: 36,
+    width: 36,
+    borderRadius: 36,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  userFirstName: {
+    color: colors.black,
+    fontSize: 16,
+    fontWeight: '500',
+    marginLeft: 8,
+  },
+
+  initialsStyle: {
+    fontSize: 16,
+  },
+
+  // profile screen styles
+
   profileContentContainer: {
     flex: 1,
     justifyContent: 'center',

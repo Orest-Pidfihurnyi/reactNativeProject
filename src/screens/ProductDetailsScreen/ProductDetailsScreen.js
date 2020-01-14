@@ -25,6 +25,7 @@ import { useStore } from '../../stores/createStore';
 import { getSimpleTime } from '../../utils';
 import { windowParams } from '../../styles/dimensions';
 import UserImage from '../../components/UserImage/UserImage';
+import screens from '../../navigation/screens';
 
 function ProductDetailsScreen({ navigation }) {
   const store = useStore();
@@ -33,8 +34,6 @@ function ProductDetailsScreen({ navigation }) {
 
   const collection = useProductCollection();
   const product = collection.get(productId);
-
-  console.log(product);
 
   const productDescription =
     product.description || 'There is no description for this product';
@@ -201,7 +200,13 @@ function ProductDetailsScreen({ navigation }) {
                   ? store.productOwner.ownerOfProduct.fullName
                   : 'No Name'}
               </Text>
-              <Touchable>
+              <Touchable
+                onPress={() =>
+                  NavigationService.navigate(screens.Profile, {
+                    userId: product.ownerId,
+                  })
+                }
+              >
                 <Text style={s.showMorePostsText}>
                   {store.productOwner.ownerOfProduct
                     ? `See all ${store.productOwner.ownerOfProduct.firstName}'s posts`
@@ -268,7 +273,7 @@ ProductDetailsScreen.navigationOptions = () => ({
         </HeaderBackIcon>
 
         <Touchable onPress={() => console.log('shared')}>
-          <Entypo name="share" size={16} color={colors.white} />
+          <Entypo name="share" size={24} color={colors.white} />
         </Touchable>
       </LinearGradient>
     </CustomHeader>
