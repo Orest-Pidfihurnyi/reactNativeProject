@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { observer } from 'mobx-react';
 import { useStore } from '../../stores/createStore';
@@ -7,9 +7,12 @@ import noItems from '../../../assets/noItems.png';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import ProductsList from '../../components/ProductsList/ProductsList';
+import AbsoluteSearchView from '../../components/AbsoluteSearchView/AbsoluteSearchView';
 
 function SavedScreen() {
   const store = useStore();
+  const [searchStr, setSearchStr] = useState('');
+
   useEffect(() => {
     store.savedProducts.fetchSaved.run();
   }, []);
@@ -17,9 +20,18 @@ function SavedScreen() {
   return (
     <View style={s.allScreenView}>
       <CustomHeader>
-        <SearchInput />
+        <SearchInput
+          inputValue={searchStr}
+          setInputValue={setSearchStr}
+        />
       </CustomHeader>
       <View style={s.container}>
+        {!!searchStr.length && (
+          <AbsoluteSearchView
+            items={store.savedProducts.searchProducts(searchStr)}
+            setSearchStr={setSearchStr}
+          />
+        )}
         {store.savedProducts.items.length ? (
           <ProductsList
             fetchMethod={() => store.savedProducts.fetchSaved.run()}

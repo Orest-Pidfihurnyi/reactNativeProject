@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { TextInput, View, Text } from 'react-native';
+import T from 'prop-types';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import s from './styles';
 import Touchable from '../Touchable/Touchable';
 import NavigationService from '../../services/NavigationService';
 
-function HeaderSearchInput() {
-  const [inputValue, setInputValue] = useState('');
+function HeaderSearchInput({ inputValue, setInputValue }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -42,6 +42,7 @@ function HeaderSearchInput() {
               onChangeText={handlePress}
               onFocus={handleFocus}
               onBlur={handleBlur}
+              onSubmitEditing={() => setInputValue('')}
             />
           </View>
           <View style={s.rightItem}>
@@ -77,5 +78,10 @@ function HeaderSearchInput() {
     </View>
   );
 }
+
+HeaderSearchInput.propTypes = {
+  inputValue: T.string,
+  setInputValue: T.func,
+};
 
 export default HeaderSearchInput;

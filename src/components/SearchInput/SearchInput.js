@@ -6,8 +6,7 @@ import Touchable from '../Touchable/Touchable';
 import s from '../HeaderSearchInput/styles';
 import colors from '../../styles/colors';
 
-function SearchInput() {
-  const [inputValue, setInputValue] = useState('');
+function SearchInput({ inputValue, setInputValue }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -40,6 +39,7 @@ function SearchInput() {
           onChangeText={handlePress}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onSubmitEditing={() => setInputValue('')}
         />
       </View>
       <View style={s.rightItem}>
@@ -56,5 +56,10 @@ function SearchInput() {
     </View>
   );
 }
+
+SearchInput.propTypes = {
+  inputValue: T.string,
+  setInputValue: T.func,
+};
 
 export default SearchInput;

@@ -26,6 +26,17 @@ export const LatestProductsStore = types
 
       store.items.push(...items);
     },
+  }))
+  .views((store) => ({
+    searchProducts(searchStr) {
+      if (store.items.length) {
+        const newArr = store.items.filter((item) =>
+          item.title.match(new RegExp(searchStr, 'i')),
+        );
+        return newArr;
+      }
+      return [{ title: 'not found', id: 'not found' }];
+    },
   }));
 
 function fetchLatest() {
