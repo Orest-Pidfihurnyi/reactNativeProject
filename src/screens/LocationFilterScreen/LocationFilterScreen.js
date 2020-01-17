@@ -11,6 +11,7 @@ import colors from '../../styles/colors';
 import s from './styles';
 import { useStore } from '../../stores/createStore';
 import ukrainianRegionsForList from '../../ukrainian_regions';
+import screens from '../../navigation/screens';
 
 function LocationFilterScreen({ navigation }) {
   const store = useStore();
@@ -20,6 +21,11 @@ function LocationFilterScreen({ navigation }) {
     if (navigatedFrom === 'CreatePost') {
       store.productsLocationStore.setLocation(region);
       NavigationService.navigateToCreatePost();
+    } else if (navigatedFrom === 'FiltersScreen') {
+      store.productsLocationStore.setLocationForSearchWithFilter(
+        region,
+      );
+      NavigationService.navigate(screens.Filters);
     }
   }
 
@@ -39,7 +45,7 @@ function LocationFilterScreen({ navigation }) {
         <View>
           <Text style={s.headerTitle}>Filter</Text>
         </View>
-        <Touchable onPress={() => console.log('closeLocationFilter')}>
+        <Touchable onPress={() => NavigationService.onGoBack()}>
           <Text style={s.doneButtonText}>Done</Text>
         </Touchable>
       </CustomHeader>

@@ -20,7 +20,6 @@ function AbsoluteSearchView({ items, setSearchStr }) {
       showsVerticalScrollIndicator={false}
       style={s.absoluteSearchView}
     >
-      {console.log(items)}
       {!!items.length && (
         <FlatList
           data={items}

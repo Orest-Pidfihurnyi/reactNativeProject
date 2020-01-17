@@ -23,6 +23,7 @@ function SavedScreen() {
         <SearchInput
           inputValue={searchStr}
           setInputValue={setSearchStr}
+          onSubmitEditing={() => setSearchStr('')}
         />
       </CustomHeader>
       <View style={s.container}>

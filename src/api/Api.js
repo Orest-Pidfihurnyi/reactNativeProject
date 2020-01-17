@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { NavigationService } from '../services';
+import { getPriceFromStr, getPriceToStr } from '../utils';
 
 const BASE_URL = 'https://apiko-intensive-backend.herokuapp.com/';
 
@@ -91,14 +92,6 @@ export const Products = {
     productPrice,
     productLocation,
   ) {
-    console.log({
-      productTitle,
-      productDescription,
-      productPhotos,
-      productPrice,
-      productLocation,
-    });
-
     return axios.post(`${BASE_URL}products`, {
       title: productTitle,
       description: productDescription,
@@ -127,6 +120,31 @@ export const Products = {
   fetchMore({ from, limit }) {
     return axios(
       `${BASE_URL}products/latest?from=${from}&limit=${limit}`,
+    );
+  },
+
+  searchByFilter(
+    keywords,
+    locationFilter,
+    priceFrom,
+    priceTo,
+    isFree,
+  ) {
+    const locationStr = locationFilter
+      ? `location=${locationFilter}&`
+      : '';
+    const keywordsStr = keywords ? `keywords=${keywords}&` : '';
+    const strPriceFrom = getPriceFromStr(priceFrom, isFree);
+    const strPriceTo = getPriceToStr(priceTo, isFree);
+
+    console.log('prices ', strPriceFrom, strPriceTo);
+
+    console.log(
+      `${BASE_URL}products/search?${locationStr}${keywordsStr}${strPriceFrom}${strPriceTo}offset=0`,
+    );
+
+    return axios.get(
+      `${BASE_URL}products/search?${locationStr}${keywordsStr}${strPriceFrom}${strPriceTo}offset=0`,
     );
   },
 };

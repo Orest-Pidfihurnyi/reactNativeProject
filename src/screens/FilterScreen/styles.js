@@ -45,9 +45,10 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '40%',
+    width: '75%',
   },
   locationText: {
+    width: '75%',
     fontSize: 16,
     color: colors.primary,
   },

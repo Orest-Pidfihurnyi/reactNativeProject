@@ -23,7 +23,7 @@ function fetchOwnProducts(id) {
     const res = await Api.Products.fetchOwnProducts(id);
 
     const result = flow.merge(res.data.list, ProductCollection);
-    console.log('result', result);
+
     store.setItems(result);
   };
 }

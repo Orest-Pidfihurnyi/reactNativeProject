@@ -1,4 +1,4 @@
-const ukrainianRegions = [
+export const ukrainianRegions = [
   'Вінницька область',
   'Волинська область',
   'Дніпропетровська область',

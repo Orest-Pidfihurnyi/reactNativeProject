@@ -31,6 +31,10 @@ class NavigationService {
     this.navigate(screens.Register);
   }
 
+  navigateToBrowse(params) {
+    this.navigate(screens.BrowseTab, params);
+  }
+
   navigateToLogin() {
     this.navigate(screens.Login);
   }

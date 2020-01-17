@@ -253,7 +253,10 @@ function CreatePost() {
               size={32}
               color={colors.primary}
             />
-            <Text style={s.locationText}>Location</Text>
+            <Text style={s.locationText}>
+              {store.productsLocationStore.locationForCreatingPost ||
+                'Location'}
+            </Text>
           </View>
 
           <View style={s.locationRight}>

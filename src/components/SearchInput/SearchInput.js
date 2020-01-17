@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import T from 'prop-types';
 import Touchable from '../Touchable/Touchable';
 import s from '../HeaderSearchInput/styles';
 import colors from '../../styles/colors';
 
-function SearchInput({ inputValue, setInputValue }) {
+function SearchInput({ inputValue, setInputValue, onSubmitEditing }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -39,7 +39,7 @@ function SearchInput({ inputValue, setInputValue }) {
           onChangeText={handlePress}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onSubmitEditing={() => setInputValue('')}
+          onSubmitEditing={onSubmitEditing || Keyboard.dismiss}
         />
       </View>
       <View style={s.rightItem}>
@@ -60,6 +60,7 @@ function SearchInput({ inputValue, setInputValue }) {
 SearchInput.propTypes = {
   inputValue: T.string,
   setInputValue: T.func,
+  onSubmitEditing: T.func,
 };
 
 export default SearchInput;

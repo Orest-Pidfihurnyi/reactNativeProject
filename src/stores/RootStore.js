@@ -10,6 +10,7 @@ import { ProductsLocationStore } from './Products/ProductsLocation/ProductsLocat
 import { OwnerOfProductStore } from './Users/OwnerOfProductStore';
 import { SavedProductsStore } from './Products/SavedProductsStore';
 import { OwnProducts } from './Products/OwnProductsStore';
+import { FilteredProductStore } from './Products/FilteredProductStore';
 
 export const RootStore = types
   .model('RootStore', {
@@ -21,6 +22,7 @@ export const RootStore = types
     entities: types.optional(EntitiesStore, {}),
     productOwner: types.optional(OwnerOfProductStore, {}),
     productsLocationStore: types.optional(ProductsLocationStore, {}),
+    filteredProductStore: types.optional(FilteredProductStore, {}),
   })
   .actions((store) => ({
     async bootstrap() {

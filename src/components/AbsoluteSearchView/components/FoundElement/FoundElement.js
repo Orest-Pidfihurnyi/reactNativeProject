@@ -9,10 +9,13 @@ import s from './styles';
 
 function FoundElement({ item, onPress }) {
   return (
-    <Touchable onPress={() => onPress(item.id)} style={s.container}>
+    <Touchable
+      onPress={() => onPress(item.id || item)}
+      style={s.container}
+    >
       <View style={s.containerWithBottomBorder}>
         <View style={s.locationContainer}>
-          <Text style={s.locationText}>{item.title}</Text>
+          <Text style={s.locationText}>{item.title || item}</Text>
           <View style={s.locationRight}>
             <Ionicons
               name="ios-arrow-forward"
@@ -27,7 +30,7 @@ function FoundElement({ item, onPress }) {
 }
 
 FoundElement.propTypes = {
-  item: T.object,
+  item: T.any,
   onPress: T.func,
 };
 

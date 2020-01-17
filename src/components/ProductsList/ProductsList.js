@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { FlatList } from 'react-native';
 import T from 'prop-types';
-import FooterList from '../FooterList/FooterList';
 import ProductItem from '../ProductItem/ProductItem';
 import s from './styles';
 
@@ -16,13 +15,6 @@ function ProductList({ store, isLoading, fetchMethod, ...props }) {
       renderItem={({ item }) => <ProductItem item={item} />}
       keyExtractor={(item) => item.id.toString()}
       refreshing={isLoading}
-      ListFooterComponent={() => (
-        <FooterList
-          fetch={
-            store.fetchMore ? store.fetchMore.isLoading : isLoading
-          }
-        />
-      )}
       {...props}
     />
   ) : null;

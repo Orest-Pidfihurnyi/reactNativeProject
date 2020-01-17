@@ -48,3 +48,20 @@ export function getMimeType(url) {
 
   return urlParts[urlParts.length - 1];
 }
+
+export function getPriceFromStr(price, isFree) {
+  if (isFree) {
+    return 'priceFrom=0&';
+  } else if (!isFree && price) {
+    return `priceFrom=${price}&`;
+  }
+  return '';
+}
+export function getPriceToStr(price, isFree) {
+  if (isFree) {
+    return 'priceTo=0&';
+  } else if (!isFree && price) {
+    return `priceTo=${price}&`;
+  }
+  return '';
+}

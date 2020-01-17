@@ -1,24 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import s from './styles';
 import Touchable from '../../components/Touchable/Touchable';
 import { NavigationService } from '../../services';
 import colors from '../../styles/colors';
+import { useStore } from '../../stores/createStore';
 import SegmentControlSortBy from './components/SegmentControlSortBy/SegmentControlSortBy';
 import PriceRangeInput from './components/PriceRangeInput/PriceRangeInput';
 import SegmentedControl from '../../components/SegmentedControl/SegmentedControl';
 import HeaderBackIcon from '../../components/headerBackIcon/HeaderBackIcon';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
+import screens from '../../navigation/screens';
 
 function FilterScreen() {
-  const [isFree, setIsFree] = useState(false);
-  const [sortBy, setSortBy] = useState('lowest');
-  const [isLocationChoosing, setIsLocationChoosing] = useState(false);
-  const [sortByFree, setSortByFree] = useState('relevance');
-  const [priceFrom, setPriceFrom] = useState('');
-  const [priceTo, setPriceTo] = useState('');
+  const store = useStore();
+
+  function handleDonePress() {
+    if (
+      !store.filteredProductStore.keywords &&
+      !store.productsLocationStore.locationForSearchWIthFilter
+    ) {
+      Alert.alert(
+        'Enter some keywords or choose location at least',
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    } else {
+      store.filteredProductStore.fetchWithFilters.run();
+      NavigationService.navigateToBrowse();
+    }
+  }
 
   return (
     <ScrollView style={s.scrollView}>
@@ -34,21 +53,34 @@ function FilterScreen() {
           />
         </HeaderBackIcon>
         <Text style={s.headerTitle}>Filter</Text>
-        <Touchable onPress={() => console.log('closeLocationFilter')}>
+        <Touchable onPress={handleDonePress}>
           <Text style={s.doneButtonText}>Done</Text>
         </Touchable>
       </CustomHeader>
       <View style={s.container}>
         <View style={s.filterContainer}>
-          <SearchInput />
-          <Touchable style={s.locationContainer}>
+          <SearchInput
+            inputValue={store.filteredProductStore.keywords}
+            setInputValue={store.filteredProductStore.setKeywords}
+          />
+          <Touchable
+            style={s.locationContainer}
+            onPress={() =>
+              NavigationService.navigate(screens.LocationFilter, {
+                navigatedFrom: 'FiltersScreen',
+              })
+            }
+          >
             <View style={s.locationLeft}>
               <MaterialIcons
                 name="location-on"
                 size={32}
                 color={colors.primary}
               />
-              <Text style={s.locationText}>Location</Text>
+              <Text style={s.locationText}>
+                {store.productsLocationStore
+                  .locationForSearchWIthFilter || 'Location'}
+              </Text>
             </View>
 
             <View style={s.locationRight}>
@@ -59,24 +91,33 @@ function FilterScreen() {
               />
             </View>
           </Touchable>
-          <SegmentedControl isFree={isFree} setIsFree={setIsFree} />
+          <SegmentedControl
+            isFree={store.filteredProductStore.isFree}
+            setIsFree={store.filteredProductStore.setIsFree}
+          />
           <View style={s.priceRangeContainer}>
-            <PriceRangeInput
-              value={priceFrom}
-              onChangeText={(val) => setPriceFrom(val)}
-              isFrom
-            />
-            <PriceRangeInput
-              value={priceTo}
-              onChangeText={(val) => setPriceTo(val)}
-            />
+            {!store.filteredProductStore.isFree && (
+              <PriceRangeInput
+                value={store.filteredProductStore.priceFrom}
+                onChangeText={(val) =>
+                  store.filteredProductStore.setPriceFrom(val)
+                }
+                isFrom
+              />
+            )}
+            {!store.filteredProductStore.isFree && (
+              <PriceRangeInput
+                value={store.filteredProductStore.priceTo}
+                onChangeText={(val) =>
+                  store.filteredProductStore.setPriceTo(val)
+                }
+              />
+            )}
           </View>
           <SegmentControlSortBy
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            isFree={isFree}
-            sortByFree={sortByFree}
-            setSortByFree={setSortByFree}
+            sortBy={store.filteredProductStore.sortBy}
+            setSortBy={store.filteredProductStore.setSortBy}
+            isFree={store.filteredProductStore.isFree}
           />
         </View>
       </View>
@@ -90,4 +131,4 @@ FilterScreen.navigationOptions = () => ({
 
 FilterScreen.propTypes = {};
 
-export default FilterScreen;
+export default observer(FilterScreen);

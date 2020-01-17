@@ -4,13 +4,7 @@ import T from 'prop-types';
 import Touchable from '../../../../components/Touchable/Touchable';
 import s from './styles';
 
-function SegmentControlSortBy({
-  sortBy,
-  setSortBy,
-  isFree,
-  sortByFree,
-  setSortByFree,
-}) {
+function SegmentControlSortBy({ sortBy, setSortBy, isFree }) {
   return (
     <View style={s.sortByContainer}>
       <Text style={s.title}>sort by</Text>
@@ -20,15 +14,15 @@ function SegmentControlSortBy({
             style={[
               s.changeCurrencyItem,
               s.freeChangeCurrencyItem,
-              sortByFree === 'newest' && s.focusedCurrencyItem,
+              sortBy === 'newest' && s.focusedCurrencyItem,
               s.leftButton,
             ]}
-            onPress={() => setSortByFree('newest')}
+            onPress={() => setSortBy('newest')}
           >
             <Text
               style={[
                 s.currencyText,
-                sortByFree === 'newest' && s.focusedCurrencyText,
+                sortBy === 'newest' && s.focusedCurrencyText,
               ]}
             >
               Newest
@@ -38,15 +32,15 @@ function SegmentControlSortBy({
             style={[
               s.changeCurrencyItem,
               s.freeChangeCurrencyItem,
-              sortByFree === 'relevance' && s.focusedCurrencyItem,
+              sortBy === 'relevance' && s.focusedCurrencyItem,
               s.rightButton,
             ]}
-            onPress={() => setSortByFree('relevance')}
+            onPress={() => setSortBy('relevance')}
           >
             <Text
               style={[
                 s.currencyText,
-                sortByFree === 'relevance' && s.focusedCurrencyText,
+                sortBy === 'relevance' && s.focusedCurrencyText,
               ]}
             >
               Relevance
@@ -116,8 +110,6 @@ SegmentControlSortBy.propTypes = {
   isFree: T.bool,
   sortBy: T.string,
   setSortBy: T.func,
-  sortByFree: T.string,
-  setSortByFree: T.func,
 };
 
 export default SegmentControlSortBy;

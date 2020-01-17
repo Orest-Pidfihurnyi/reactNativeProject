@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text, Keyboard } from 'react-native';
 import T from 'prop-types';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import colors from '../../styles/colors';
+import { useStore } from '../../stores/createStore';
 import s from './styles';
 import Touchable from '../Touchable/Touchable';
 import NavigationService from '../../services/NavigationService';
 
-function HeaderSearchInput({ inputValue, setInputValue }) {
+function HeaderSearchInput({
+  inputValue,
+  setInputValue,
+  onSubmitEditing,
+}) {
   const [isFocused, setIsFocused] = useState(false);
+  const store = useStore();
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -20,6 +26,17 @@ function HeaderSearchInput({ inputValue, setInputValue }) {
 
   const handlePress = (value) => {
     setInputValue(value);
+  };
+
+  const handleCancelPress = () => {
+    setInputValue('');
+    store.filteredProductStore.setShowFilteredProducts(false);
+    store.filteredProductStore.setKeywords(null);
+    store.filteredProductStore.setPriceFrom(null);
+    store.filteredProductStore.setPriceTo(null);
+    store.filteredProductStore.setSortBy('newest');
+    store.filteredProductStore.setIsFree(false);
+    store.productsLocationStore.setLocationForSearchWithFilter(null);
   };
 
   return (
@@ -42,7 +59,7 @@ function HeaderSearchInput({ inputValue, setInputValue }) {
               onChangeText={handlePress}
               onFocus={handleFocus}
               onBlur={handleBlur}
-              onSubmitEditing={() => setInputValue('')}
+              onSubmitEditing={onSubmitEditing || Keyboard.dismiss}
             />
           </View>
           <View style={s.rightItem}>
@@ -59,7 +76,8 @@ function HeaderSearchInput({ inputValue, setInputValue }) {
         </View>
       </View>
       <View style={s.headerRight}>
-        {!inputValue ? (
+        {!inputValue &&
+        !store.filteredProductStore.showFilteredProducts ? (
           <Touchable
             onPress={() => NavigationService.navigateToFilter()}
           >
@@ -70,7 +88,7 @@ function HeaderSearchInput({ inputValue, setInputValue }) {
             />
           </Touchable>
         ) : (
-          <Touchable onPress={() => setInputValue('')}>
+          <Touchable onPress={handleCancelPress}>
             <Text style={s.rightItemText}>Cancel</Text>
           </Touchable>
         )}
@@ -82,6 +100,7 @@ function HeaderSearchInput({ inputValue, setInputValue }) {
 HeaderSearchInput.propTypes = {
   inputValue: T.string,
   setInputValue: T.func,
+  onSubmitEditing: T.func,
 };
 
 export default HeaderSearchInput;
