@@ -151,8 +151,22 @@ export const Products = {
 
 export const Chats = {
   createChat(id, message) {
-    return axios.post(`${BASE_URL}/products/${id}/createChat`, {
+    return axios.post(`${BASE_URL}products/${id}/createChat`, {
       message,
     });
+  },
+
+  getMessages(id) {
+    return axios.get(`${BASE_URL}chats/${id}/messages`);
+  },
+
+  sendMessage(id, message) {
+    return axios.post(`${BASE_URL}chats/${id}/messages`, {
+      message,
+    });
+  },
+
+  getList() {
+    return axios.get(`${BASE_URL}chats`);
   },
 };

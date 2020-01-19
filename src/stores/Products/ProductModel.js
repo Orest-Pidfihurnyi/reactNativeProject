@@ -1,8 +1,8 @@
 import { types, getRoot, getSnapshot } from 'mobx-state-tree';
 import { UserModel } from '../UserModel';
 import { safeReference, asyncModel } from '../utils';
-// import { ChatSchema } from '../../stores/schema';
-// import Api from '../../api';
+import Api from '../../api';
+import { ChatSchema } from '../schema';
 
 export const ProductModel = types
   .model('ProductModel', {
@@ -16,10 +16,10 @@ export const ProductModel = types
     saved: false,
     createdAt: types.string,
     updatedAt: types.string,
-    // chatId: types.maybeNull(types.number),
+    chatId: types.maybeNull(types.number),
     owner: types.maybe(safeReference(types.late(() => UserModel))),
 
-    // createChat: asyncModel(createChat, false),
+    createChat: asyncModel(createChat, false),
   })
   .preProcessSnapshot((snapshot) => ({
     ...snapshot,
@@ -32,27 +32,32 @@ export const ProductModel = types
     setSaved() {
       store.saved = !store.saved;
     },
+  }))
+  .views((store) => ({
+    getShortDescription() {
+      return `${store.description.slice(0, 17)}...`;
+    },
   }));
 
-// function createChat(message) {
-//   return async function createChatFlow(flow, store) {
-//     let chatId;
+function createChat(message) {
+  return async function createChatFlow(flow, store) {
+    let chatId;
 
-//     try {
-//       flow.start();
+    try {
+      flow.start();
 
-//       const res = await Api.Chats.createChat(store.id, message);
-//       chatId = res.data.id;
+      const res = await Api.Chats.createChat(store.id, message);
+      chatId = res.data.id;
 
-//       res.data.participants = [getSnapshot(store.owner)];
-//       flow.merge(res.data, ChatSchema);
+      res.data.participants = [getSnapshot(store.owner)];
+      flow.merge(res.data, ChatSchema);
 
-//       flow.success();
-//     } catch (err) {
-//       console.log('creatingChat', err);
-//       flow.error(err);
-//       throw err;
-//     }
-//     return chatId;
-//   };
-// }
+      flow.success();
+    } catch (err) {
+      console.log('creatingChat', err);
+      flow.error(err);
+      throw err;
+    }
+    return chatId;
+  };
+}

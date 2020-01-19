@@ -4,9 +4,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { createStackNavigator } from 'react-navigation-stack';
 import screens from './screens';
 import InboxScreen from '../screens/Inbox/Inbox';
+import ProductDetailsScreen from '../screens/ProductDetailsScreen/ProductDetailsScreen';
 
 const routes = {
   [screens.Inbox]: InboxScreen,
+  [screens.ProductDetails]: ProductDetailsScreen,
 };
 
 const InboxNavigator = createStackNavigator(routes, {

@@ -11,9 +11,12 @@ export const LatestProductCollection = [LatestProduct];
 // schemas for chat
 
 export const MessageSchema = new schema.Entity('messages');
+export const MessageCollectionSchema = [MessageSchema];
 
 export const ChatSchema = new schema.Entity('chats', {
   message: MessageSchema,
   product: Product,
   participants: [User],
 });
+
+export const ChatCollectionSchema = [ChatSchema];

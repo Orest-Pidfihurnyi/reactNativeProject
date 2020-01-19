@@ -11,7 +11,6 @@ function getProduct(id) {
   return async function getProductFlow(flow) {
     try {
       const res = await Api.Products.getById(id);
-      console.log(res.data);
       flow.merge(res.data, Product);
     } catch (err) {
       console.log('getProductByiD error', err);

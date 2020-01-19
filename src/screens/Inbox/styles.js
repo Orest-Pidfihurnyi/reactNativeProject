@@ -8,6 +8,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: colors.grayForBackground,
+  },
   noMessage: {
     alignItems: 'center',
   },
@@ -19,6 +23,14 @@ const s = StyleSheet.create({
     fontSize: 16,
     color: colors.gray,
     marginTop: 16,
+  },
+  flatList: {
+    display: 'flex',
+  },
+  borderBottomLine: {
+    width: '100%',
+    height: 1,
+    backgroundColor: colors.grayBorder,
   },
 });
 

@@ -22,4 +22,5 @@ export default mirror([
   'CreatePost',
   'Settings',
   'LocationFilter',
+  'Chat',
 ]);

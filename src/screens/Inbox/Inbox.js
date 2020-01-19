@@ -1,11 +1,54 @@
-import React from 'react';
-import { View, Image, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import {
+  View,
+  Image,
+  Text,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import noMessageIcon from '../../../assets/noMessage.png';
 import s from './styles';
 import styles from '../../styles/styles';
+import { useStore } from '../../stores/createStore';
+import colors from '../../styles/colors';
+import ChatItem from './components/ChatItem/ChatItem';
 
 function InboxScreen() {
-  return (
+  const chats = useStore((store) => store.chats);
+  const store = useStore();
+
+  useEffect(() => {
+    chats.fetchChats.run();
+  }, []);
+
+  return store.chats.items.length ? (
+    <View style={s.mainContainer}>
+      <View>
+        {store.chats.fetchChats.isLoading ? (
+          <View style={s.container}>
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        ) : (
+          <>
+            <FlatList
+              onRefresh={() => store.chats.fetchChats.run()}
+              refreshing={store.chats.fetchChats.isLoading}
+              keyExtractor={(item) => item.id.toString()}
+              data={store.chats.items.slice()}
+              renderItem={({ item, index }) => (
+                <ChatItem
+                  isLast={index === store.chats.items.length - 1}
+                  item={item}
+                />
+              )}
+            />
+            <View style={s.borderBottomLine} />
+          </>
+        )}
+      </View>
+    </View>
+  ) : (
     <View style={s.container}>
       <View style={s.noMessage}>
         <Image source={noMessageIcon} style={s.noMessageIcon} />
@@ -22,4 +65,4 @@ InboxScreen.navigationOptions = () => ({
 
 InboxScreen.propTypes = {};
 
-export default InboxScreen;
+export default observer(InboxScreen);

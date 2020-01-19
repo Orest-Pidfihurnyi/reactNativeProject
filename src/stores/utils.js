@@ -142,3 +142,8 @@ export function useProductCollection() {
   const store = useStore();
   return store.entities.products;
 }
+
+export function useUserCollection() {
+  const store = useStore();
+  return store.entities.users;
+}

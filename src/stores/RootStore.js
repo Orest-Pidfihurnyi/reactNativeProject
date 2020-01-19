@@ -11,6 +11,7 @@ import { OwnerOfProductStore } from './Users/OwnerOfProductStore';
 import { SavedProductsStore } from './Products/SavedProductsStore';
 import { OwnProducts } from './Products/OwnProductsStore';
 import { FilteredProductStore } from './Products/FilteredProductStore';
+import { ChatStore } from './Chats/ChatStore';
 
 export const RootStore = types
   .model('RootStore', {
@@ -20,6 +21,7 @@ export const RootStore = types
     savedProducts: types.optional(SavedProductsStore, {}),
     ownProducts: types.optional(OwnProducts, {}),
     entities: types.optional(EntitiesStore, {}),
+    chats: types.optional(ChatStore, {}),
     productOwner: types.optional(OwnerOfProductStore, {}),
     productsLocationStore: types.optional(ProductsLocationStore, {}),
     filteredProductStore: types.optional(FilteredProductStore, {}),
