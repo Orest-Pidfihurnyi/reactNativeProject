@@ -4,21 +4,23 @@ import T from 'prop-types';
 import { observer } from 'mobx-react';
 import s from './styles';
 
-function MessageItem({ message, isRight, isLast }) {
+function MessageItem({ message, isRight }) {
   return (
     <View style={[s.paddingBottom, isRight && s.moveRight]}>
       <View style={[s.messageContainer, isRight && s.rightSide]}>
         <Text style={[s.message, isRight && s.ownMessage]}>
-          {message}
+          {message.text}
         </Text>
-        <Text style={[s.time, isRight && s.timeRight]}>18:02</Text>
+        <Text style={[s.time, isRight && s.timeRight]}>
+          {message.getDeliveryTime()}
+        </Text>
       </View>
     </View>
   );
 }
 
 MessageItem.propTypes = {
-  message: T.string,
+  message: T.object,
   isRight: T.bool,
 };
 

@@ -75,11 +75,20 @@ function ProductDetailsScreen({ navigation }) {
     }
   }
 
-  // async function handleCreateChat() {
-  //   try {
-  //     const chatId = await product.createChat.run
-  //   }
-  // }
+  function handleChatPress() {
+    if (product.ownerId === store.viewer.user.id) {
+      Alert.alert(
+        'It is your own product',
+        'Press OK to close alert window',
+        [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ],
+      );
+    }
+  }
 
   function renderViewMore(onPress) {
     return (
@@ -233,7 +242,10 @@ function ProductDetailsScreen({ navigation }) {
             />
             <Text style={s.communicateText}>Call</Text>
           </Touchable>
-          <Touchable style={[s.communicateButton, s.messageButton]}>
+          <Touchable
+            onPress={handleChatPress}
+            style={[s.communicateButton, s.messageButton]}
+          >
             <MaterialIcons
               name="message"
               color={colors.white}

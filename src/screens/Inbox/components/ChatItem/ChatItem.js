@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import T from 'prop-types';
 import { View, Image, Text } from 'react-native';
 import { observer } from 'mobx-react';
@@ -11,6 +11,7 @@ import {
 } from '../../../../stores/utils';
 import UserImage from '../../../../components/UserImage/UserImage';
 import { NavigationService } from '../../../../services';
+import notFound from '../../../../../assets/imgNotFound.png';
 import screens from '../../../../navigation/screens';
 
 function ChatItem({ item, isLast }) {
@@ -20,6 +21,10 @@ function ChatItem({ item, isLast }) {
   const usersCollection = useUserCollection();
   const user = usersCollection.get(item.ownerId) || {};
   const ownerOfProduct = usersCollection.get(product.ownerId) || {};
+
+  const [isProductPhotoError, setIsProductPhotoError] = useState(
+    false,
+  );
 
   let productImage = 'wrong';
   if (product.photos && product.photos.length) {
@@ -41,10 +46,16 @@ function ChatItem({ item, isLast }) {
     >
       <View style={s.chatItemLeftContainer}>
         <View>
-          <Image
-            source={{ uri: productImage }}
-            style={s.productImage}
-          />
+          {!isProductPhotoError ? (
+            <Image
+              source={{ uri: productImage }}
+              style={s.productImage}
+              onError={() => setIsProductPhotoError(true)}
+            />
+          ) : (
+            <Image source={notFound} style={s.productImage} />
+          )}
+
           <UserImage
             style={s.userAvatar}
             initialsStyle={s.initialsStyle}

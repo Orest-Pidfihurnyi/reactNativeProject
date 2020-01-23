@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import T from 'prop-types';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import {
@@ -7,7 +7,6 @@ import {
   Text,
   FlatList,
   TextInput,
-  ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
 import { observer } from 'mobx-react';
@@ -25,6 +24,8 @@ function ChatView({ navigation }) {
   const chatId = navigation.getParam('chatId');
   const chat = useStore((store) => store.chats.getChatById(+chatId));
   const store = useStore();
+
+  const flatListRef = useRef();
 
   let productImage = 'wrong';
   if (chat.product.photos && chat.product.photos.length) {
@@ -45,6 +46,13 @@ function ChatView({ navigation }) {
   const [message, setMessage] = useState('');
   function handleChange(value) {
     setMessage(value);
+  }
+
+  function handleSendMessage() {
+    if (message && message.split('')) {
+      chat.messages.sendMessage.run(chatId, message);
+      setMessage('');
+    }
   }
 
   return (
@@ -109,14 +117,18 @@ function ChatView({ navigation }) {
       <KeyboardAvoidingView behavior="padding" style={s.main}>
         {!!chat.messages.items.length && (
           <FlatList
+            ref={flatListRef}
             showsVerticalScrollIndicator={false}
-            style={s.scrollView}
+            style={s.flatList}
+            inverted
+            onContentSizeChange={() =>
+              setTimeout(() => flatListRef.current.scrollToEnd(), 200)
+            }
             data={chat.messages.items}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <MessageItem
-                message={item.text}
+                message={item}
                 isRight={item.ownerId === store.viewer.user.id}
-                isLast={chat.messages.items.length === index - 1}
               />
             )}
             keyExtractor={(item) => `${item.id}`}
@@ -132,7 +144,13 @@ function ChatView({ navigation }) {
               onChangeText={handleChange}
             />
           </View>
-          <Ionicons name="md-send" size={24} color={colors.primary} />
+          <Touchable onPress={handleSendMessage}>
+            <Ionicons
+              name="md-send"
+              size={24}
+              color={colors.primary}
+            />
+          </Touchable>
         </View>
       </KeyboardAvoidingView>
     </View>

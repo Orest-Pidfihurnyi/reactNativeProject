@@ -137,12 +137,6 @@ export const Products = {
     const strPriceFrom = getPriceFromStr(priceFrom, isFree);
     const strPriceTo = getPriceToStr(priceTo, isFree);
 
-    console.log('prices ', strPriceFrom, strPriceTo);
-
-    console.log(
-      `${BASE_URL}products/search?${locationStr}${keywordsStr}${strPriceFrom}${strPriceTo}offset=0`,
-    );
-
     return axios.get(
       `${BASE_URL}products/search?${locationStr}${keywordsStr}${strPriceFrom}${strPriceTo}offset=0`,
     );

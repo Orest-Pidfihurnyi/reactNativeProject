@@ -95,7 +95,7 @@ const s = StyleSheet.create({
     backgroundColor: colors.grayForBackground,
   },
 
-  scrollView: {
+  flatList: {
     flexDirection: 'column',
   },
 

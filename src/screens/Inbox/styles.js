@@ -24,9 +24,6 @@ const s = StyleSheet.create({
     color: colors.gray,
     marginTop: 16,
   },
-  flatList: {
-    display: 'flex',
-  },
   borderBottomLine: {
     width: '100%',
     height: 1,

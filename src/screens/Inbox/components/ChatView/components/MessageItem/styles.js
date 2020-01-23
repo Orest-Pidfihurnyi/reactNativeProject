@@ -3,6 +3,7 @@ import colors from '../../../../../../styles/colors';
 
 const s = StyleSheet.create({
   paddingBottom: {
+    alignSelf: 'flex-start',
     maxWidth: '75%',
     minHeight: 36,
     paddingBottom: 8,
@@ -12,7 +13,6 @@ const s = StyleSheet.create({
   },
   messageContainer: {
     flexDirection: 'row',
-    width: '100%',
     minHeight: 36,
     paddingVertical: 8,
     paddingHorizontal: 8,

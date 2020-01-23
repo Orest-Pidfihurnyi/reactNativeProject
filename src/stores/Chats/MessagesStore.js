@@ -1,5 +1,4 @@
-import { types, getParent, getRoot } from 'mobx-state-tree';
-import { normalize } from 'normalizr';
+import { types, getParent } from 'mobx-state-tree';
 import { MessageModel } from './MessageModel';
 import { asyncModel } from '../utils';
 import { MessageSchema, MessageCollectionSchema } from '../schema';
@@ -9,6 +8,7 @@ export const MessagesStore = types
   .model('MessagesStore', {
     items: types.array(types.reference(MessageModel)),
 
+    sendMessage: asyncModel(sendMessage),
     fetch: asyncModel(fetchMessages),
   })
   .views((store) => ({
@@ -24,23 +24,32 @@ export const MessagesStore = types
     runInAction(cb) {
       cb(store);
     },
-    addMessage(message) {
-      const { entities, result } = normalize(message, MessageSchema);
-      getRoot(store).entities.merge(entities);
-
-      store.items.unshift(result);
-    },
   }));
 
 function fetchMessages(id) {
   return async function fetchMessagesFlow(flow, store) {
     try {
       const res = await Api.Chats.getMessages(id);
-      console.log(res);
 
       const results = flow.merge(res.data, MessageCollectionSchema);
       store.runInAction((self) => {
         self.items = results;
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+function sendMessage(id, message) {
+  return async function sendMessageFlow(flow, store) {
+    try {
+      const res = await Api.Chats.sendMessage(id, message);
+
+      const result = flow.merge(res.data, MessageSchema);
+
+      store.runInAction((self) => {
+        self.items.unshift(result);
       });
     } catch (e) {
       console.log(e);
