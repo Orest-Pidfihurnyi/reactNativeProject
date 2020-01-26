@@ -5,10 +5,7 @@ import { observer } from 'mobx-react';
 import s from './styles';
 import { useStore } from '../../../../stores/createStore';
 import Touchable from '../../../../components/Touchable/Touchable';
-import {
-  useProductCollection,
-  useUserCollection,
-} from '../../../../stores/utils';
+import { useProductCollection } from '../../../../stores/utils';
 import UserImage from '../../../../components/UserImage/UserImage';
 import { NavigationService } from '../../../../services';
 import notFound from '../../../../../assets/imgNotFound.png';
@@ -18,9 +15,6 @@ function ChatItem({ item, isLast }) {
   const store = useStore();
   const productCollection = useProductCollection();
   const product = productCollection.get(item.productId) || {};
-  const usersCollection = useUserCollection();
-  const user = usersCollection.get(item.ownerId) || {};
-  const ownerOfProduct = usersCollection.get(product.ownerId) || {};
 
   const [isProductPhotoError, setIsProductPhotoError] = useState(
     false,
@@ -34,13 +28,17 @@ function ChatItem({ item, isLast }) {
 
   useEffect(() => {
     store.entities.products.getProduct.run(item.productId);
-    store.entities.users.getUserById.run(user.id);
+    store.entities.users.getUserById.run(item.product.ownerId);
   }, []);
 
   return (
     <Touchable
       onPress={() =>
-        NavigationService.navigate(screens.Chat, { chatId: item.id })
+        NavigationService.navigate(screens.Chat, {
+          chatId: item.id,
+          interlocutorId: item.user.id,
+          productId: item.productId,
+        })
       }
       style={s.chatItemContainer}
     >
@@ -59,7 +57,7 @@ function ChatItem({ item, isLast }) {
           <UserImage
             style={s.userAvatar}
             initialsStyle={s.initialsStyle}
-            initials={ownerOfProduct.initials || 'N N'}
+            initials={item.user.initials || 'N N'}
           />
         </View>
       </View>
@@ -68,7 +66,7 @@ function ChatItem({ item, isLast }) {
       >
         <View style={s.chatLeft}>
           <Text style={s.productTitle}>{product.title}</Text>
-          <Text style={s.interlocutor}>{user.fullName}</Text>
+          <Text style={s.interlocutor}>{item.user.fullName}</Text>
           <Text style={s.message}>{item.message.text}</Text>
         </View>
         <View style={s.dateAndCounter}>

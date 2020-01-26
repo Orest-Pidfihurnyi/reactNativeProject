@@ -11,7 +11,6 @@ export const ChatStore = types
       [],
     ),
 
-    createChat: asyncModel(createChat),
     fetchChats: asyncModel(fetchChats),
   })
   .actions((store) => ({
@@ -34,22 +33,6 @@ function fetchChats() {
 
       store.runInAction((self) => {
         self.items = result;
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-}
-
-function createChat(userId, message) {
-  return async function createChatFlow(flow, store) {
-    try {
-      const res = await Api.Chats.createChat(userId, message);
-
-      const result = flow.merge(res.data, ChatCollectionSchema);
-
-      store.runInAction((self) => {
-        self.items.unshift(result);
       });
     } catch (err) {
       console.log(err);

@@ -105,6 +105,7 @@ const s = StyleSheet.create({
     height: 52,
     width: '100%',
     backgroundColor: colors.white,
+    alignSelf: 'flex-end',
     paddingVertical: 8,
     paddingLeft: 8,
     paddingRight: 16,

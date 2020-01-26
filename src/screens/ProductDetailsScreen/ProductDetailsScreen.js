@@ -87,6 +87,11 @@ function ProductDetailsScreen({ navigation }) {
           },
         ],
       );
+    } else {
+      NavigationService.navigate(screens.Chat, {
+        productId,
+        interlocutorId: product.ownerId,
+      });
     }
   }
 

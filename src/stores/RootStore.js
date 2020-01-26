@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
-import Api from 'src/api';
 import { AsyncStorage } from 'react-native';
+import Api from '../api';
 import { AuthStore } from './Auth/AuthStore';
 import { ViewerStore } from './ViewerStore';
 import NavigationService from '../services/NavigationService';

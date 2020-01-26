@@ -19,39 +19,64 @@ import UserImage from '../../../../components/UserImage/UserImage';
 import Touchable from '../../../../components/Touchable/Touchable';
 import screens from '../../../../navigation/screens';
 import MessageItem from './components/MessageItem/MessageItem';
+import photoNotFound from '../../../../../assets/imgNotFound.png';
+import styles from '../../../../styles/styles';
+import noMessages from '../../../../../assets/noMessage.png';
+import {
+  useProductCollection,
+  useUserCollection,
+} from '../../../../stores/utils';
 
 function ChatView({ navigation }) {
-  const chatId = navigation.getParam('chatId');
-  const chat = useStore((store) => store.chats.getChatById(+chatId));
+  const chatId = navigation.getParam('chatId', null);
+  const productId = navigation.getParam('productId');
+  const interlocutorId = navigation.getParam('interlocutorId');
+  const chat = chatId
+    ? useStore((store) => store.chats.getChatById(+chatId))
+    : null;
   const store = useStore();
 
   const flatListRef = useRef();
 
-  let productImage = 'wrong';
-  if (chat.product.photos && chat.product.photos.length) {
-    productImage =
-      chat.product.photos[0] ||
-      chat.product.photos[1] ||
-      chat.product.photos[2];
-  }
+  useEffect(() => {
+    store.entities.products.getProduct.run(productId);
+    store.entities.users.getUserById.run(interlocutorId);
+  }, []);
 
   useEffect(() => {
     if (chatId) {
       chat.messages.fetch.run(+chatId);
-      store.entities.products.getProduct.run(chat.productId);
-      store.entities.users.getUserById.run(chat.ownerId);
     }
-  }, []);
+  }, [chatId]);
 
-  const [message, setMessage] = useState('');
-  function handleChange(value) {
-    setMessage(value);
+  const productCollection = useProductCollection();
+  const product = productCollection.get(productId) || {};
+
+  const userCollection = useUserCollection();
+  const interlocutor = userCollection.get(interlocutorId);
+
+  const [isPhotoError, setIsPhotoError] = useState(false);
+  let productImage = 'wrong';
+  if (product.photos && product.photos.length) {
+    productImage =
+      product.photos[0] || product.photos[1] || product.photos[2];
   }
 
-  function handleSendMessage() {
-    if (message && message.split('')) {
-      chat.messages.sendMessage.run(chatId, message);
+  const [message, setMessage] = useState('');
+
+  async function handleSendMessage() {
+    try {
+      if (chatId && message) {
+        chat.messages.sendMessage.run(chatId, message);
+      } else {
+        const createdChatId = await product.createChat.run(message);
+        console.log(createdChatId);
+
+        navigation.setParams({ chatId: createdChatId });
+      }
       setMessage('');
+    } catch (e) {
+      console.log('creating chat error', e);
     }
   }
 
@@ -70,11 +95,13 @@ function ChatView({ navigation }) {
           </Touchable>
           <View style={s.headerSmallUserContainer}>
             <UserImage
-              initials={chat.user ? chat.user.initials : 'N N'}
+              initials={interlocutor ? interlocutor.initials : 'N N'}
               style={s.smallUserAvatar}
               initialsStyle={s.initialsStyle}
             />
-            <Text style={s.userFirstName}>{chat.user.firstName}</Text>
+            <Text style={s.userFirstName}>
+              {interlocutor ? interlocutor.firstName : 'no name'}
+            </Text>
           </View>
         </View>
       </CustomHeader>
@@ -82,26 +109,34 @@ function ChatView({ navigation }) {
         <Touchable
           onPress={() =>
             NavigationService.navigate(screens.ProductDetails, {
-              productId: chat.product.id,
+              productId,
             })
           }
           style={s.chatItemContainer}
         >
           <View style={s.chatItemLeftContainer}>
             <View>
-              <Image
-                source={{ uri: productImage }}
-                style={s.productImage}
-              />
+              {isPhotoError ? (
+                <Image
+                  source={photoNotFound}
+                  style={s.productImage}
+                />
+              ) : (
+                <Image
+                  source={{ uri: productImage }}
+                  style={s.productImage}
+                  onError={() => setIsPhotoError(true)}
+                />
+              )}
             </View>
           </View>
           <View style={s.productRightContainer}>
             <View style={s.chatLeft}>
-              <Text style={s.productTitle}>{chat.product.title}</Text>
+              <Text style={s.productTitle}>{product.title}</Text>
               <Text style={s.productDescription}>
-                {chat.product.description.length > 40
-                  ? `${chat.product.description.slice(0, 37)}...`
-                  : chat.product.description}
+                {product.description.length > 40
+                  ? `${product.description.slice(0, 37)}...`
+                  : product.description}
               </Text>
             </View>
             <View style={s.arrowRightIcon}>
@@ -115,14 +150,24 @@ function ChatView({ navigation }) {
         </Touchable>
       </View>
       <KeyboardAvoidingView behavior="padding" style={s.main}>
-        {!!chat.messages.items.length && (
+        {chat && chat.messages.items.length ? (
           <FlatList
             ref={flatListRef}
             showsVerticalScrollIndicator={false}
+            refreshing={chat.messages.fetch.isLoading}
+            onRefresh={() => chat.messages.fetch.run()}
             style={s.flatList}
             inverted
             onContentSizeChange={() =>
-              setTimeout(() => flatListRef.current.scrollToEnd(), 200)
+              setTimeout(
+                () =>
+                  flatListRef.current.scrollToItem(
+                    chat.messages.items[
+                      chat.messages.items.length - 1
+                    ],
+                  ),
+                200,
+              )
             }
             data={chat.messages.items}
             renderItem={({ item }) => (
@@ -132,7 +177,15 @@ function ChatView({ navigation }) {
               />
             )}
             keyExtractor={(item) => `${item.id}`}
+            ListEmptyComponent={
+              <View style={s.containerNoMessages}>
+                <Image source={noMessages} />
+                <Text style={s.textNoMessages}>No messages yet</Text>
+              </View>
+            }
           />
+        ) : (
+          <View style={styles.fillAll} />
         )}
 
         <View style={s.footer}>
@@ -141,7 +194,7 @@ function ChatView({ navigation }) {
               placeholder="Message..."
               value={message}
               style={s.textInput}
-              onChangeText={handleChange}
+              onChangeText={setMessage}
             />
           </View>
           <Touchable onPress={handleSendMessage}>
